@@ -1,0 +1,160 @@
+---
+title: "Authentication"
+description: "How Fire242 handles sign-in, JWT tokens, role-based access, session persistence, and automatic logout."
+---
+
+Fire242 uses JSON Web Tokens (JWT) to authenticate users. When you sign in, the server issues a token that is stored in your browser and sent with every subsequent request to verify your identity.
+
+## Sign-in flow
+
+<Steps>
+  <Step title="Submit your credentials">
+    Enter your email and password on the login page and click **Sign In**. The platform sends your credentials to the authentication endpoint:
+
+    ```http
+    POST /auth/login
+    Content-Type: application/json
+
+    {
+      "email": "you@example.com",
+      "password": "your-password"
+    }
+    ```
+  </Step>
+
+  <Step title="Token and role are stored">
+    On a successful response, the platform stores your session data in `localStorage`:
+
+    | Key | Value |
+    |---|---|
+    | `authToken` | Your JWT access token |
+    | `role` | Your assigned role (`admin`, `manager`, or `user`) |
+    | `UserID` | Your account ID |
+    | `userName` | Your display name |
+    | `userEmail` | Your email address |
+    | `userImage_url` | URL of your profile photo |
+    | `isSuperUser` | `"yes"` or `"no"` |
+    | `type` | `"coordinator"` or `"manager"` (manager accounts only) |
+    | `timePermission` | `"yes"` or `"no"` — whether time restrictions apply (manager accounts only) |
+    | `userPages` | JSON array of pages you are permitted to access |
+
+    The `role` value controls which dashboard you are redirected to after sign-in.
+  </Step>
+
+  <Step title="Redirected to your dashboard">
+    After the token is stored, you are sent to your role-specific dashboard:
+
+    - `admin` → `/panel/admin/dashboard`
+    - `manager` → `/panel/manager/dashboard`
+    - `user` → `/panel/user/dashboard`
+
+    If you return to the login page while already signed in, the platform detects the stored `authToken` and redirects you directly to your dashboard without showing the login form.
+  </Step>
+</Steps>
+
+## Using the token in API requests
+
+Every API call to a protected endpoint requires the token in the `Authorization` header as a Bearer token.
+
+```javascript
+const token = localStorage.getItem("authToken");
+
+const response = await fetch("/api/some-endpoint", {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  },
+});
+```
+
+The `getAuthToken` utility in the codebase handles this retrieval:
+
+```javascript
+// utils/api/token.js
+export const getAuthToken = () => {
+  return localStorage.getItem("authToken");
+};
+```
+
+All voter, survey, and report API calls use this pattern. If the token is missing or invalid, the server returns `401 Unauthorized` and the request fails.
+
+## Role-based access control
+
+Access to platform pages is controlled by the `role` stored in `localStorage`. An `AuthWrapper` component checks this value on every protected route and redirects unauthorized users.
+
+Roles map to allowed sections of the platform:
+
+| Role | Allowed panel | Access scope |
+|---|---|---|
+| `admin` | `/panel/admin/` | Full platform: voters, users, reports, settings |
+| `manager` | `/panel/manager/` | Assigned constituencies: voters, canvassers, polls |
+| `user` | `/panel/user/` | Survey work, quota, polling results |
+
+If you navigate to a page your role does not have access to, you are redirected to the root login page.
+
+<Note>
+  Managers also have a `type` field that distinguishes `coordinator` from `manager` within the manager role. Canvassers have a `timePermission` flag that controls whether time-based access restrictions apply to their account.
+</Note>
+
+## Session persistence
+
+Your session persists across browser refreshes because the token is stored in `localStorage` rather than an in-memory variable. As long as your token is valid and you have not signed out, you remain signed in even after closing and reopening the browser tab.
+
+<Warning>
+  Because the token is stored in `localStorage`, it is accessible to any JavaScript running on the page. Only use Fire242 on trusted devices. Do not share your credentials or leave sessions open on shared computers.
+</Warning>
+
+## Inactivity auto-logout
+
+Fire242 enforces inactivity timeouts for all roles. If no mouse movement, keypress, scroll, or touch event is detected for the configured duration, the platform shows a warning and signs you out automatically.
+
+**Canvassers** (role `user`, non-super-user): the timeout duration, allowed operating days, and the start/end time window are all configured by your Admin under **System settings**. All times are evaluated in EST. Outside of allowed hours or days, canvassers are redirected to the access-denied page.
+
+**Admins**: a separate inactivity timeout (`admin_active_time`) is configured in System Settings. Admins are signed out after this many minutes of inactivity but are not subject to day/time window restrictions.
+
+Managers follow the same time-based restrictions as canvassers when their `timePermission` flag is enabled.
+
+## Signing out
+
+To sign out manually, use the sign-out control in the platform UI. Signing out removes the `authToken` and `role` values from `localStorage` and redirects you to the login page.
+
+```javascript
+// Signing out clears the token and returns to the login page
+localStorage.removeItem("authToken");
+window.location.href = "/";
+```
+
+<Tip>
+  Always sign out when you finish a session on a shared or public device to prevent unauthorized access to voter data.
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="I see 'Login failed' after entering my credentials">
+    Check that your email address is correctly formatted and that your password is correct. If the problem persists, ask your Admin to confirm your account is active and that your credentials are correct.
+  </Accordion>
+  <Accordion title="I'm being redirected to the login page unexpectedly">
+    Your token may have expired or been cleared. Sign in again. If this happens frequently, check whether inactivity auto-logout is configured for your account type — Canvasser accounts on restricted time windows are signed out automatically when outside of allowed hours.
+  </Accordion>
+  <Accordion title="I land on the wrong dashboard after signing in">
+    Your dashboard is determined by the `role` assigned to your account by the Admin. If you need access to a different role's panel, contact your administrator to update your account.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="User roles" icon="users" href="/roles/overview">
+    Full breakdown of what each role can see and do in the platform.
+  </Card>
+  <Card title="Permissions" icon="key" href="/features/permissions">
+    How page-level permissions are assigned to Managers and Canvassers.
+  </Card>
+  <Card title="System settings" icon="gear" href="/features/system-settings">
+    Configuring inactivity timeouts and canvasser operating hours.
+  </Card>
+  <Card title="User management" icon="user-plus" href="/features/user-management">
+    Creating and managing Admin, Manager, and Canvasser accounts.
+  </Card>
+</CardGroup>

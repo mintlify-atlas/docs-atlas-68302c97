@@ -1,0 +1,238 @@
+---
+title: "User Management"
+description: "Create, edit, and manage Admin, Manager, and Canvasser accounts in Fire242."
+---
+
+Fire242 supports three user roles: **Admin**, **Manager**, and **Canvasser** (also referred to as Data Entry users). Admins have full access to create and manage all user types, assign constituencies, configure account status, and maintain the reference data — parties and survey questions — that underpin field operations.
+
+<CardGroup cols={3}>
+  <Card title="Roles overview" icon="users" href="/roles/overview">
+    Understand the three-tier role hierarchy in Fire242.
+  </Card>
+  <Card title="Permissions" icon="shield" href="/features/permissions">
+    Control which features each role can access.
+  </Card>
+  <Card title="Constituencies" icon="map-pin" href="/features/constituencies">
+    Manage the constituency assignments used during user creation.
+  </Card>
+</CardGroup>
+
+## User types
+
+| Role | Description |
+|------|-------------|
+| **Admin** | Full platform access. Creates and manages all users, sets permissions, configures system settings. |
+| **Manager** | Manages canvassers within one or more assigned constituencies. Has a dedicated system-settings view scoped to their canvassers. |
+| **Canvasser** | Field worker who conducts voter surveys and canvassing activities. Also called Data Entry user in the admin panel. |
+
+---
+
+## Managing managers and canvassers
+
+<Tabs>
+  <Tab title="Managers">
+
+Managers are responsible for overseeing canvassers within one or more constituencies. Each manager account includes a **Time Management** flag that controls whether constituency-level time restrictions apply to that manager.
+
+### Create a manager
+
+<Steps>
+  <Step title="Open the managers list">
+    Navigate to **Admin Panel → Managers → List**. Click **Add New** to open the creation form.
+  </Step>
+  <Step title="Upload a profile image">
+    Click the camera icon on the avatar placeholder to upload a `.png`, `.jpg`, or `.jpeg` profile photo. The image is required.
+  </Step>
+  <Step title="Fill in the required fields">
+    Complete the following fields:
+
+    | Field | Required | Notes |
+    |-------|----------|-------|
+    | Full Name | Yes | — |
+    | Email | Yes | Must be a valid email address. |
+    | Password | Yes | Shown/hidden with the eye toggle. |
+    | Phone | No | Pre-filled with the Bahamian country prefix `1242`. |
+    | Constituency | Yes | Multi-select. Assign one or more constituencies this manager oversees. |
+    | Address | No | — |
+    | Active Status | Yes | Set to **Active** or **Inactive**. |
+    | Time Management | Yes | **Yes** enables constituency time-window restrictions for this manager. **No** disables them. |
+  </Step>
+  <Step title="Save">
+    Click **Save**. The manager is created and you are redirected to the managers list. A confirmation dialog confirms success.
+  </Step>
+</Steps>
+
+### Edit or deactivate a manager
+
+From the managers list, click the **edit** icon on any row to open the edit form. All fields from creation are editable. To deactivate a manager without deleting them, set **Active Status** to **Inactive** and save.
+
+  </Tab>
+  <Tab title="Canvassers">
+
+Canvassers (also called Data Entry users) are field workers who conduct voter surveys. They are assigned to one or more constituencies and optionally elevated to **Super Data Entry** status.
+
+### Create a canvasser
+
+<Steps>
+  <Step title="Open the canvassers list">
+    Navigate to **Admin Panel → Users → List**. Click **Add New** to open the creation form.
+  </Step>
+  <Step title="Upload a profile image">
+    Click the camera icon to upload a `.png`, `.jpg`, or `.jpeg` profile photo. The image is required.
+  </Step>
+  <Step title="Fill in the required fields">
+    Complete the following fields:
+
+    | Field | Required | Notes |
+    |-------|----------|-------|
+    | Full Name | Yes | — |
+    | Email | Yes | Must be a valid email address. |
+    | Password | Yes | Shown/hidden with the eye toggle. |
+    | Phone | No | Pre-filled with `1242`. |
+    | Constituency | Yes | Multi-select. Canvassers can operate in multiple constituencies. |
+    | Address | No | — |
+    | Active Status | Yes | **Active** or **Inactive**. |
+    | Super Data Entry | No | **Yes** grants elevated data-entry privileges within the canvasser role. |
+  </Step>
+  <Step title="Save">
+    Click **Save**. You are redirected to the users list and a success confirmation is shown.
+  </Step>
+</Steps>
+
+### View canvasser details
+
+From the users list, each canvasser row provides links to:
+- **Activity** — view the canvasser's recent activity log.
+- **View Survey** — inspect survey responses submitted by this canvasser.
+- **View Target** — review assigned voter targets.
+
+### Edit or deactivate a canvasser
+
+Click the edit icon on any row in the users list. All fields are editable. To deactivate a canvasser, set **Active Status** to **Inactive** and save. Inactive canvassers cannot log in.
+
+  </Tab>
+</Tabs>
+
+---
+
+## Admin users
+
+Admin users have unrestricted access to all areas of the Fire242 panel. Only existing admins can create new admin accounts.
+
+### Create an admin user
+
+<Steps>
+  <Step title="Navigate to the admin users list">
+    Go to **Admin Panel → Admin Users → List** and click **Add New**.
+  </Step>
+  <Step title="Complete the creation form">
+    Fill in the following fields:
+
+    | Field | Required | Notes |
+    |-------|----------|-------|
+    | Full Name | Yes | — |
+    | Email | Yes | Must be a valid email address. |
+    | Password | Yes | Toggle visibility with the eye icon. |
+    | Phone | No | Pre-filled with `1242`. |
+    | Address | No | — |
+    | Active Status | Yes | **Active** or **Inactive**. |
+    | Profile Image | Yes | `.png`, `.jpg`, or `.jpeg`. |
+  </Step>
+  <Step title="Save">
+    Click **Save**. The new admin account is created immediately and appears in the admin users list.
+  </Step>
+</Steps>
+
+<Warning>
+Admin accounts have full platform access including the ability to create other admins, modify permissions, and change system settings. Only create admin accounts for trusted personnel.
+</Warning>
+
+### Admin users list
+
+The admin users list at **Admin Panel → Admin Users → List** displays all admin accounts with their name, email, phone, address, active status, and creation date. You can:
+- **Filter** by name, email, address, or active status.
+- **Edit** any account by clicking the edit icon.
+- **Delete** an account by clicking the delete icon (requires confirmation).
+- **Export** the list to a file using the Export button.
+
+---
+
+## Viewing and editing your profile
+
+Any logged-in admin can view and update their own profile at **Admin Panel → View Profile**. The profile page allows editing:
+
+- Full name
+- Email address
+- Phone number
+- Address
+- Password and confirm password
+- Profile image (drag-and-drop or browse)
+
+Changes are saved immediately upon clicking **Save**.
+
+---
+
+## Parties management
+
+Parties represent the political organisations canvassers track during voter surveys. Common Bahamian parties include FNM, PLP, COI, and DNA, though the list is fully configurable.
+
+Navigate to **Admin Panel → Parties → List** to manage parties.
+
+### Party fields
+
+| Field | Required | Constraints |
+|-------|----------|-------------|
+| Name | Yes | 2–50 characters |
+| Short Name | Yes | 2–10 characters (e.g., `FNM`, `PLP`) |
+| Status | Yes | **Active** or **Inactive** |
+
+### Adding a party
+
+Click **Add New** in the parties list to open a right-side panel. Enter the party name, short name, and status, then click **Submit**. The list refreshes automatically.
+
+Rows in the parties list are **draggable** — you can reorder them by dragging rows to reflect display priority in reports and surveys.
+
+---
+
+## Survey questions management
+
+Survey questions are the structured prompts canvassers present to voters in the field. Each question has one or more answer options, and the platform tracks response percentages broken down by gender.
+
+Navigate to **Admin Panel → Questions → List** to manage questions.
+
+### Creating a question
+
+<Steps>
+  <Step title="Open the questions list">
+    Go to **Admin Panel → Questions → List** and click **Add New**.
+  </Step>
+  <Step title="Enter the question text">
+    Type the question into the **Question** field (for example, "Which party do you support?") and click **Submit**.
+  </Step>
+  <Step title="Add answer options">
+    After creating the question, click the **view** icon on its row to open the answers list for that question. Click **Add New** and enter each answer option (for example, "FNM", "PLP", "DNA"). Repeat for all valid responses.
+  </Step>
+</Steps>
+
+<Tip>
+Questions are presented to canvassers in the order they appear in the list. Drag rows to reorder questions as needed.
+</Tip>
+
+### Opinion reports
+
+The **Opinion Reports** page (**Admin Panel → Questions → Percentage**) shows aggregated response data for all questions, including:
+
+- Total responses per question
+- Per-answer count and percentage
+- Gender breakdown (male and female count and percentage) for each answer
+
+Results can be exported as **PDF** or **CSV** directly from the page.
+
+<CardGroup cols={2}>
+  <Card title="Voter survey" icon="clipboard-list" href="/features/voter-survey">
+    How canvassers conduct surveys in the field.
+  </Card>
+  <Card title="Voter reports" icon="chart-bar" href="/features/voter-reports">
+    Aggregated reporting on voter data.
+  </Card>
+</CardGroup>

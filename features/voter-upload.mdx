@@ -1,0 +1,97 @@
+---
+title: "Voter Upload"
+description: "Bulk import voter records into Fire242 from an Excel spreadsheet."
+---
+
+The voter upload page lets administrators import large voter rolls in bulk by uploading a Microsoft Excel file. This is typically used during initial setup to load the national electoral roll, and again after a re-registration period to bring in updated records.
+
+<Info>
+Only users with the **Admin** role can access the voter upload page. Managers and canvassers do not have access to this feature.
+</Info>
+
+## Supported file formats
+
+The uploader accepts Microsoft Excel files only:
+
+| Format | MIME type |
+|---|---|
+| `.xls` (Excel 97–2003) | `application/vnd.ms-excel` |
+| `.xlsx` (Excel 2007+) | `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` |
+
+CSV files are **not** accepted. If your source data is in CSV format, open it in Excel and save it as `.xlsx` before uploading.
+
+## File size limit
+
+The maximum file size is **100 MB**. Files larger than 100 MB must be split into smaller batches before uploading.
+
+## How to upload a voter file
+
+<Steps>
+  <Step title="Navigate to voter upload">
+    From the admin dashboard, go to **Voter Upload** in the navigation menu.
+  </Step>
+  <Step title="Select your file">
+    Drag and drop your `.xls` or `.xlsx` file onto the upload area, or click **Browse** to open a file picker.
+
+    The uploader validates the file type and size before sending it to the server. If the file is the wrong type or exceeds 100 MB, an error message appears and the upload does not proceed.
+  </Step>
+  <Step title="Wait for the upload to complete">
+    A progress indicator shows the upload percentage. For large files this may take several minutes depending on your connection speed.
+
+    <Warning>
+    Do not close or refresh the browser tab while an upload is in progress. Doing so will interrupt the transfer and the file will not be processed. If you accidentally navigate away, the browser will prompt you to confirm before leaving.
+    </Warning>
+  </Step>
+  <Step title="Confirm success">
+    When the file has been fully transferred, a green confirmation banner appears:
+
+    > File uploaded successfully! The data is now being processed on the server. This may take several minutes.
+
+    Processing runs asynchronously on the server. The voter records will appear in the database once processing is complete.
+  </Step>
+</Steps>
+
+## What happens after upload
+
+Once the file reaches the server, Fire242 processes it through an import pipeline:
+
+1. **Parse** — the Excel file is read row by row.
+2. **Validate** — each row is checked for required fields and correct data types.
+3. **Deduplicate** — rows whose voter ID already exists in the database are skipped or merged, depending on server configuration.
+4. **Insert** — valid, non-duplicate rows are written to the voter database.
+
+Processing is asynchronous. You can navigate away from the upload page once the success banner appears — you do not need to wait on the page.
+
+## Cancelling an upload in progress
+
+To cancel an upload that is currently in progress, click the remove button on the file in the upload area. A confirmation dialog appears:
+
+> **Upload in Progress** — Are you sure you want to cancel the upload? This action cannot be undone.
+
+Click **Cancel Upload** to abort, or **Continue Upload** to let it finish.
+
+## Error handling
+
+If the upload fails, a red error banner appears with a message from the server. Common causes include:
+
+| Error | Resolution |
+|---|---|
+| Wrong file type | Convert your file to `.xls` or `.xlsx` and try again. |
+| File exceeds 100 MB | Split the file into smaller batches (for example, by constituency) and upload each batch separately. |
+| Network error | Check your internet connection and retry. |
+| Server error | Contact your system administrator. The server logs will contain details. |
+
+<Tip>
+If you are uploading the electoral roll for the first time and the file is very large, consider splitting it by constituency to make troubleshooting easier if any rows fail validation.
+</Tip>
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Voter database" icon="database" href="/features/voter-database">
+    Browse and search the voter records after upload.
+  </Card>
+  <Card title="Voter surveys" icon="clipboard-list" href="/features/voter-survey">
+    Start surveying voters once records are in the database.
+  </Card>
+</CardGroup>

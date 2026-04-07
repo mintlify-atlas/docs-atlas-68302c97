@@ -1,0 +1,168 @@
+---
+title: "Permissions"
+description: "Configure which pages and features Canvassers and Managers can access in Fire242."
+---
+
+Fire242 uses a page-level permissions system to control what each role can see and do within the platform. Admins configure permissions independently for Canvassers and Managers through dedicated permission management pages. Each permission entry corresponds to a named feature page and its associated URL route, and can be toggled active or inactive at any time.
+
+<Note>
+Permission changes apply immediately across all users of that role. There is no staged rollout — as soon as you toggle a permission, it takes effect for every Canvasser or Manager the next time they load the relevant page.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="User management" icon="users" href="/features/user-management">
+    Create and configure the user accounts that these permissions apply to.
+  </Card>
+  <Card title="Roles overview" icon="shield-check" href="/roles/overview">
+    Understand the Admin, Manager, and Canvasser role hierarchy.
+  </Card>
+</CardGroup>
+
+---
+
+## How permissions work
+
+Permissions in Fire242 are stored per role (Canvasser and Manager) and fetched at login. The platform calls the permissions API and caches the result in `localStorage` under the key `userPages`. Each entry contains:
+
+- **Name** — a human-readable label for the feature (e.g., "Voter Database", "Geo Fence")
+- **URL** — the route this permission guards
+- **Status** — `active` (access allowed) or `inactive` (access denied)
+
+When a user navigates to a page, the platform checks their cached permissions. If the relevant page has `inactive` status, access is blocked.
+
+<Warning>
+Disabling a permission removes access for all users of that role immediately. If a Canvasser or Manager is currently logged in, they will lose access to the restricted page on their next navigation or page refresh.
+</Warning>
+
+---
+
+## Canvasser permissions
+
+Canvasser permissions control which features field workers can access in the Fire242 mobile and web canvasser panel. Navigate to **Admin Panel → Canvasser Permissions** to view and manage these settings.
+
+The page lists every available canvasser-facing feature. Use the toggle switch in the **Action** column to enable or disable access.
+
+<AccordionGroup>
+  <Accordion title="Voter database">
+    Controls whether canvassers can view and search the voter database. When active, canvassers can look up voters by name, address, or other identifiers. When inactive, the voter database is hidden from the canvasser panel.
+  </Accordion>
+  <Accordion title="Voter survey">
+    Controls access to the survey submission feature. When active, canvassers can open voter records and submit structured survey responses with party preference, opinion question answers, and voter sentiment. Disable this to prevent new survey submissions from canvassers.
+  </Accordion>
+  <Accordion title="Canvassing map">
+    Controls whether canvassers can access the map-based canvassing view that shows voter locations and territory assignments. When active, canvassers can navigate and check off visited households.
+  </Accordion>
+  <Accordion title="Geo fence">
+    Controls access to the geo-fence feature. When active, canvassers can view their assigned geographic boundary and the system enforces location-based restrictions during canvassing sessions. Disabling this removes geo-fence enforcement for canvassers.
+  </Accordion>
+  <Accordion title="Exit polls">
+    Controls whether canvassers can submit exit poll data at polling stations. When active, canvassers see the exit poll submission interface. Disable this when exit poll collection is not required.
+  </Accordion>
+  <Accordion title="Election reports">
+    Controls access to election-day reporting screens. When active, canvassers can view summary reports relevant to their assigned area. This is typically disabled outside of active election periods.
+  </Accordion>
+</AccordionGroup>
+
+### Updating canvasser permissions
+
+<Steps>
+  <Step title="Open canvasser permissions">
+    Navigate to **Admin Panel → Canvasser Permissions**. The page loads the full list of canvasser-facing features with their current status.
+  </Step>
+  <Step title="Locate the permission to change">
+    Find the feature by its name or URL in the table.
+  </Step>
+  <Step title="Toggle the status">
+    Click the toggle switch in the **Action** column. A confirmation dialog appears asking whether you want to change the status.
+  </Step>
+  <Step title="Confirm the change">
+    Click **Yes, change it!** to apply. The status badge updates to reflect the new state — green for active, red for inactive. Click **No, cancel!** to leave the permission unchanged.
+  </Step>
+</Steps>
+
+---
+
+## Manager permissions
+
+Manager permissions control which sections of the manager panel are accessible. Navigate to **Admin Panel → Manager Permissions** to view and manage these settings.
+
+The interface is identical to canvasser permissions: a table listing each manager-facing feature with a toggle to enable or disable access.
+
+<AccordionGroup>
+  <Accordion title="Canvasser management">
+    Controls whether managers can view, create, and edit the canvassers assigned to their constituencies. When inactive, managers cannot see the canvasser list or create new accounts.
+  </Accordion>
+  <Accordion title="Voter database">
+    Controls manager access to the voter database. When active, managers can browse voter records across their assigned constituencies.
+  </Accordion>
+  <Accordion title="Voter upload">
+    Controls whether managers can upload voter data files for their constituencies. Disable this if voter data uploads should be restricted to admins only.
+  </Accordion>
+  <Accordion title="Canvassing reports">
+    Controls access to canvassing activity reports within the manager panel. When active, managers can see which voters their canvassers have visited and the outcomes of those visits.
+  </Accordion>
+  <Accordion title="Polling results">
+    Controls access to polling station result entry within the manager panel. When active, managers can input and review polling results for their constituencies.
+  </Accordion>
+  <Accordion title="Election reports">
+    Controls access to aggregated election reporting within the manager panel. Disable this between elections to limit the manager view to operational data only.
+  </Accordion>
+  <Accordion title="System settings">
+    Controls whether managers can access and modify system settings scoped to their constituencies. When active, managers can adjust canvasser active hours, inactivity timeouts, daily quotas, and active days for their area.
+  </Accordion>
+</AccordionGroup>
+
+### Updating manager permissions
+
+<Steps>
+  <Step title="Open manager permissions">
+    Navigate to **Admin Panel → Manager Permissions**. The page lists all manager-facing features with their current active or inactive status.
+  </Step>
+  <Step title="Find the permission to change">
+    Locate the feature by name or URL in the table.
+  </Step>
+  <Step title="Toggle the status">
+    Click the toggle in the **Action** column and confirm the change in the dialog that appears.
+  </Step>
+</Steps>
+
+---
+
+## Common permission scenarios
+
+The following configurations represent typical setups for different operational phases.
+
+**Active canvassing period**
+
+Enable all canvasser permissions. Enable manager permissions for canvasser management, voter database, canvassing reports, and system settings. Disable polling results and election reports until election day.
+
+**Election day**
+
+Enable all permissions for both roles. Managers need access to polling results and election reports. Canvassers need access to exit polls and the canvassing map.
+
+**Between elections**
+
+Disable exit polls, polling results, and election reports for both roles. Keep voter database, voter survey, and canvassing features active if ongoing outreach is planned. Disable all canvasser permissions if field operations are paused entirely.
+
+**Restricted data entry**
+
+Keep voter survey active but disable voter database access for canvassers if you want canvassers to submit data without being able to browse existing voter records independently.
+
+<Tip>
+Review permissions before each major campaign phase. Enabling features that are not yet needed increases the surface area for accidental data entry errors.
+</Tip>
+
+---
+
+## How permissions are loaded
+
+When a Canvasser logs in, the platform fetches their allowed pages from `/user/fatch-all-user-permissions`. When a Manager logs in, it fetches from `/manager/fatch-all-manager-permissions`. Both responses are cached in `localStorage` and compared on each subsequent load to detect changes without requiring a full re-fetch on every navigation.
+
+<CardGroup cols={2}>
+  <Card title="System settings" icon="settings" href="/features/system-settings">
+    Configure global time windows and operational parameters.
+  </Card>
+  <Card title="Canvasser role" icon="user" href="/roles/canvasser">
+    Detailed description of what canvassers can do within the platform.
+  </Card>
+</CardGroup>

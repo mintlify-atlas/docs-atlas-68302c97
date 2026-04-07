@@ -1,0 +1,73 @@
+{
+  "projectType": "saas",
+  "projectName": "Fire242",
+  "projectDescription": "A multi-role voter management and political canvassing platform for tracking voter data, managing field canvassers, conducting surveys, and analyzing exit poll results.",
+  "theme": "almond",
+  "primaryColor": "#7c7c7c",
+  "lightColor": "#080808",
+  "darkColor": "#c1c1c1",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Overview",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["introduction", "quickstart", "authentication"]
+          },
+          {
+            "group": "User Roles",
+            "pages": ["roles/overview", "roles/admin", "roles/manager", "roles/canvasser"]
+          }
+        ]
+      },
+      {
+        "tab": "Features",
+        "groups": [
+          {
+            "group": "Voter Management",
+            "pages": ["features/voter-database", "features/voter-upload", "features/voter-survey", "features/voter-reports"]
+          },
+          {
+            "group": "Field Operations",
+            "pages": ["features/canvassing", "features/geo-fence", "features/constituencies"]
+          },
+          {
+            "group": "Elections & Polls",
+            "pages": ["features/exit-polls", "features/polling-results", "features/election-reports"]
+          },
+          {
+            "group": "Administration",
+            "pages": ["features/user-management", "features/permissions", "features/system-settings"]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Multi-role access control (Admin, Manager, Canvasser)",
+    "Voter database with upload, search, and management",
+    "Field canvassing surveys with real-time data collection",
+    "Exit polls and election day reporting with charts",
+    "Geo-fencing and interactive map for constituency tracking",
+    "Constituency and polling location management",
+    "PDF and CSV export for voter lists and reports",
+    "Real-time notifications via Socket.IO",
+    "Dark/light theme support",
+    "Inactivity-based auto logout for security"
+  ],
+  "publicApiSurface": [
+    "GET /admin/dashboard/stats",
+    "GET /user/voters/suggestions",
+    "POST /surveys/challenge/{survey_id}",
+    "GET /global-system-settings",
+    "POST /auth/login",
+    "POST /auth/logout",
+    "GET /admin/voters",
+    "POST /admin/voter-upload",
+    "GET /admin/constituencies",
+    "GET /admin/managers",
+    "GET /admin/exit-polls",
+    "GET /admin/polling-results"
+  ]
+}

@@ -1,0 +1,132 @@
+---
+title: 'Canvasser role'
+description: 'Canvassers conduct voter surveys in the field, track their daily quota, and submit results through the Fire242 data entry panel.'
+keywords: ['canvasser', 'data entry', 'voter survey', 'daily quota', 'polling results', 'user panel']
+---
+
+Canvassers (referred to as "users" or "data entries" in the application) are the field-level role in Fire242. They contact voters, complete surveys, and submit results. Their panel is scoped to their assigned constituency and the pages enabled for them by their Admin or Manager.
+
+Canvassers log in and are routed to `/panel/user/dashboard`.
+
+## How canvasser accounts are created
+
+Only an Admin or Manager can create a Canvasser account.
+
+<Steps>
+  <Step title="Navigate to Data Entries">
+    An Admin goes to **Data Entries → Add Data Entry**, or a Manager (if permitted) goes to **Data Entries → Add Data Entry** in their panel.
+  </Step>
+  <Step title="Fill in account details">
+    Enter the canvasser's name, email, and credentials.
+  </Step>
+  <Step title="Admin configures permissions">
+    Go to **Permissions → Data Entry Permissions** in the admin panel and enable the pages this canvasser should access.
+  </Step>
+</Steps>
+
+<Note>
+  Canvassers only see sidebar items that an Admin has set to `active` in the Data Entry Permissions configuration.
+</Note>
+
+## Dashboard
+
+The canvasser dashboard shows stats scoped to their assigned constituency and voter list.
+
+| Stat card | Description |
+|---|---|
+| Total Registered | Registered voters in the canvasser's list |
+| Total Unsurveyed Voters | Voters not yet contacted |
+| Registered Voter but Living Elsewhere | Voters registered locally but residing elsewhere |
+
+## Conducting a survey
+
+<Steps>
+  <Step title="Open the survey">
+    Navigate to **Survey → Add Survey**, or go directly to `/survey`. This opens the voter survey form.
+  </Step>
+  <Step title="Search for the voter">
+    Enter the voter's name or registration number to locate their record.
+  </Step>
+  <Step title="Complete the survey form">
+    Record the voter's responses, including party affiliation, registration status, and any opinion survey questions.
+  </Step>
+  <Step title="Submit">
+    Save the survey. The voter's record is updated and the submission counts toward the canvasser's daily quota.
+  </Step>
+</Steps>
+
+## Viewing quota progress
+
+The **Daily Quota** page (`/panel/user/view-quota`) shows the canvasser's survey output per day.
+
+| Column | Description |
+|---|---|
+| Name | Canvasser name and avatar |
+| Email / Phone | Contact details |
+| Date | The survey date |
+| Total Surveys | Number of surveys submitted on that date |
+| Completion Percentage | Percentage of the daily target completed |
+
+Use the date filter to view quota data for a specific range.
+
+## Sidebar navigation
+
+The available sections depend on the pages enabled by the Admin.
+
+### Dashboard
+
+Key stats for the canvasser's assigned area.
+
+### Reports
+
+Voter lists filtered by registration and survey status.
+
+- Registered Voters
+- Registered Voter but Living Elsewhere
+- Duplicate Registered Voters
+- Newly Registered Voters
+- Upcoming Birthday List
+- Unregistered Voters List
+- Unregistered Contacted Voters
+- Unregistered Uncontacted Voters
+- Deceased Voters Surveyed
+- Voters Not Yet Surveyed
+- Voters Surveyed
+- Daily Quota
+
+### Opinion Survey
+
+- **Opinion Report** — Percentage breakdown of survey responses by question.
+
+### Survey
+
+- **Survey List** — All surveys submitted by this canvasser.
+- **Survey Call Center List** — Surveys entered via the call center workflow.
+- **Add Survey** — Start a new survey session.
+
+### Polling Card Result
+
+View and submit polling card results for election day. Always visible regardless of permission configuration.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Voter survey" href="/features/voter-survey">
+    Step-by-step guide to completing a voter survey.
+  </Card>
+  <Card title="Canvassing" href="/features/canvassing">
+    Overview of the canvassing workflow and best practices.
+  </Card>
+  <Card title="Polling results" href="/features/polling-results">
+    Viewing and submitting polling card results.
+  </Card>
+  <Card title="Voter database" href="/features/voter-database">
+    Searching and viewing voter records.
+  </Card>
+  <Card title="Permissions" href="/features/permissions">
+    How admins enable pages for canvassers.
+  </Card>
+  <Card title="Manager role" href="/roles/manager">
+    The manager role that oversees canvassers.
+  </Card>
+</CardGroup>

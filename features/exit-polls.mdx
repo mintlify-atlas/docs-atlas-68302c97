@@ -1,0 +1,109 @@
+---
+title: "Exit Polls"
+description: "Track which voters have cast their ballot on election day, broken down by party affiliation, polling division, and time of day."
+---
+
+Exit polls are the real-time spine of Fire242's election-day operations. As voters leave polling stations, workers record each voter's ID and the party they indicated — building a running picture of turnout and party performance across every polling division.
+
+<Note>
+  Exit poll data is live. Every entry appears immediately in the graphs and reports viewed by administrators and managers. Coordinate with your team before election day so everyone knows which party codes to use when recording votes.
+</Note>
+
+## How exit polls work
+
+On election day, a worker at each polling station logs a voter's registration number and their indicated party preference into Fire242. The system links the entry to the voter record, marks the voter as having voted, and updates all downstream graphs and reports.
+
+Each entry contains:
+
+- **Voter ID** — the voter's registration number
+- **Party** — one of the party codes listed below
+- **Optional image** — a photo of the voting card for verification
+
+The system automatically looks up the voter's name after the ID is entered, so workers can confirm they have the right record before saving.
+
+## Voter categories
+
+Exit poll entries are classified by party code. The codes used throughout Fire242 are:
+
+| Code | Party |
+|------|-------|
+| `fnm` | Free National Movement |
+| `plp` | Progressive Liberal Party |
+| `coi` | Coalition of Independents |
+| `dna` | Democratic National Alliance |
+| `bcp` | Bahamas Constitution Party |
+| `bdm` | Bahamas Democratic Movement |
+| `l-fnm` | Leaning Free National Movement |
+| `unk` | Unknown / Undecided |
+| `undisclosed` | Other |
+| `unavail` | Unavailable |
+
+<Tip>
+  If a voter declines to state a preference, record them as `unk`. This keeps the Unknown/Undecided count accurate without leaving the entry blank.
+</Tip>
+
+## Party voter views
+
+The platform provides dedicated list views for each major party category. Each view shows all voters who have been recorded with that party affiliation on election day. You can filter by constituency ID, constituency name, polling division number, address, or voter ID, and export the results as CSV or PDF.
+
+<Tabs>
+  <Tab title="Admin">
+    Admins have access to all four party voter views from the Exit Polls section of the admin panel:
+
+    - **FNM Voters** — registered voters recorded as FNM on election day
+    - **PLP Voters** — registered voters recorded as PLP
+    - **DNA Voters** — registered voters recorded as DNA
+    - **Unknown Voters** — voters whose party preference was not captured
+
+    Each view displays constituency ID, constituency name, polling division, voter ID, full name, date of birth, address fields, and place-of-birth codes. The table can be filtered by voter ID, first name, last name, constituency, polling division, address, and age bracket (under 25).
+
+    Both CSV export and PDF export are available on each party voter view.
+  </Tab>
+  <Tab title="Manager">
+    Managers see the same four party voter views — FNM, PLP, DNA, and Unknown — scoped to the constituencies assigned to their account. The columns, filters, and export options are identical to the admin view.
+
+    Managers do not have access to the Voter Management Report or the print card list.
+  </Tab>
+</Tabs>
+
+## Election day graph
+
+The election day graph shows a line chart of cumulative voter turnout over time on election day. Two series are plotted:
+
+- **Cumulative** (red) — the running total of votes recorded up to each time interval
+- **Increment** (grey dashed) — the number of new votes recorded in each interval
+
+The x-axis shows the time of day; the y-axis shows the vote count. The chart can be filtered by constituency ID, constituency name, polling division number, age bracket (under 25), and whether voters are registered (`exists_in_database`).
+
+Use this view to identify surges in turnout, confirm that data is still being entered in real time, and compare activity across different parts of the day.
+
+## Polling day graph
+
+The polling day graph breaks down turnout by individual polling division, displayed as a stacked column chart. Each polling division column shows three values per time slot:
+
+- **Cumulative** (red) — total votes in that poll up to that time
+- **Increment** (blue) — votes added since the previous interval
+- **Decrement** (grey) — corrections or removals in that interval
+
+The top of the chart shows a summary row with each poll's running total and an overall grand total. Filter by constituency ID, constituency name, or party to narrow the view.
+
+<Note>
+  The polling day graph updates with each new exit poll entry. If the chart looks frozen, check whether data entry is continuing at the polling stations.
+</Note>
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Polling Results" icon="ballot-check" href="/features/polling-results">
+    Create and manage individual polling card result entries
+  </Card>
+  <Card title="Election Reports" icon="chart-bar" href="/features/election-reports">
+    Generate comprehensive election day and voter management reports
+  </Card>
+  <Card title="Admin role" icon="shield" href="/roles/admin">
+    Full breakdown of admin permissions on election day
+  </Card>
+  <Card title="Manager role" icon="user-tie" href="/roles/manager">
+    What managers can access and record during elections
+  </Card>
+</CardGroup>

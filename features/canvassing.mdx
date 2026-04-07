@@ -1,0 +1,169 @@
+---
+title: "Canvassing Operations"
+description: "How canvassers conduct door-to-door voter surveys, track their quotas, and submit data in real time through Fire242."
+keywords: ["canvassing", "canvasser", "door-to-door", "voter survey", "quota", "field operations"]
+---
+
+Canvassing is the core field activity in Fire242. Canvassers — referred to in the platform as **data entry agents** — go door-to-door within their assigned constituencies to conduct voter surveys. Each survey interaction is recorded in the platform and contributes toward the canvasser's daily quota.
+
+## How canvassing works
+
+Each canvasser is assigned to one or more constituencies by a manager. When a canvasser logs in, their dashboard displays only the voters and statistics relevant to their assigned areas. Surveys submitted by canvassers appear in real time in the manager's view via Socket.IO notifications.
+
+<Steps>
+  <Step title="Manager creates a canvasser account">
+    The manager navigates to **Canvassers → Add New** and fills out the canvasser's name, email, password, phone, address, and active status. One or more constituencies are selected from a searchable multi-select dropdown. A profile photo can be uploaded.
+  </Step>
+  <Step title="Canvasser logs in and views their dashboard">
+    The canvasser logs in and lands on the dashboard at `/panel/user/dashboard`. The dashboard shows their **assigned constituencies** as labeled badges and a table of registered voters within those areas. The voter table can be filtered by voter ID, name, constituency, polling division, address, or age.
+  </Step>
+  <Step title="Canvasser locates a voter and opens their record">
+    From the voter list, the canvasser finds the voter they are visiting. The dashboard shows whether a voter is a current record or a historical record, controlled by the **Current Records / Old Records** filter.
+  </Step>
+  <Step title="Canvasser submits a survey">
+    The canvasser opens the voter's record and completes the survey form. On submission, the survey count increments on the canvasser's quota tracker and the manager receives a real-time notification.
+  </Step>
+  <Step title="Daily quota is recorded">
+    Each day's survey activity is logged. The canvasser can view their own quota history in the **Daily Quota** page. Managers can view all canvassers' quota progress from the canvassers list.
+  </Step>
+</Steps>
+
+## Canvasser dashboard
+
+The canvasser dashboard (`/panel/user/dashboard`) is the primary working view for field agents. It provides:
+
+<AccordionGroup>
+  <Accordion title="Assigned constituencies">
+    A row of labeled badges showing every constituency the canvasser has been assigned to. Canvassers only see voters and statistics within their assigned areas.
+  </Accordion>
+  <Accordion title="Registered voter stats">
+    Three stat cards are shown on the dashboard:
+
+    - **Total Registered** — count of registered voters in the canvasser's constituencies. Clicking navigates to the full registered voter list.
+    - **Total Unsurveyed Voters** — voters who have not yet been contacted. Clicking navigates to the unsurveyed voter list.
+    - **Registered Voter but Living Elsewhere** — voters registered in this constituency but with an address elsewhere.
+  </Accordion>
+  <Accordion title="Voter table">
+    A filterable, paginated data table listing voters in the canvasser's constituencies. Columns include voter ID, constituency number, constituency name, polling division, full name, date of birth, place-of-birth fields, house number, apartment/block number, and address. The table supports live address search.
+  </Accordion>
+  <Accordion title="Current vs old records filter">
+    A dropdown in the page header lets canvassers switch between **Current Records** and **Old Records**. This filters all stats and the voter table simultaneously.
+  </Accordion>
+</AccordionGroup>
+
+## Quota system
+
+Fire242 tracks each canvasser's daily survey output through a quota system. This gives managers visibility into how productive each canvasser is on any given day.
+
+### Canvasser quota view
+
+Canvassers can see their own quota history at **Dashboard → Daily Quota** (`/panel/user/view-quota`). The table shows:
+
+| Column | Description |
+|---|---|
+| Name | Canvasser name and avatar |
+| Email | Canvasser email address |
+| Phone | Canvasser phone number |
+| Date | The date for this quota record |
+| Total Surveys | Number of surveys submitted on that date |
+| Completion Percentage | Progress toward the daily target, shown as a green badge |
+| Created At | When the record was generated |
+
+The table can be filtered by date range.
+
+### Manager quota view
+
+Managers see quota data for all their canvassers in the **Canvassers List** (`/panel/manager/canvassers/list`). Each canvasser row shows:
+
+- **Today survey** — total surveys submitted today
+- **Daily Quota** — completion percentage toward today's target
+- **Total survey** — all-time survey count
+
+Managers can click the **View Daily Quota** action icon on any canvasser row to open a detailed quota history for that individual.
+
+<Tip>
+Sort the canvassers list by daily quota percentage to quickly identify agents who are falling behind their targets.
+</Tip>
+
+## Canvasser assignment
+
+Canvassers are assigned to constituencies when their account is created or edited. A single canvasser can be assigned to multiple constituencies.
+
+To assign a canvasser to constituencies:
+
+1. Go to **Canvassers → Add New** (or edit an existing canvasser).
+2. In the **Select Constituency** field, search for and select one or more constituencies from the multi-select dropdown.
+3. Save the form. The canvasser's dashboard will immediately reflect their new constituency assignments.
+
+Each canvasser also has a **Super Data Entry** flag. Setting this to **Yes** grants the canvasser elevated access within the data entry role.
+
+<Note>
+Both admins and managers can create canvasser accounts. Admins create canvassers from **Data Entries → Add Data Entry** in the admin panel (`/panel/admin/users/create`). Managers create canvassers from their own panel under **Data Entries → Add Data Entry**.
+</Note>
+
+## Manager oversight of canvassers
+
+Managers have a dedicated canvassers management section with the following capabilities:
+
+<CardGroup cols={2}>
+  <Card title="Canvassers list" icon="list" href="/roles/manager">
+    View all canvassers under your management. Columns include assigned constituencies, today's survey count, daily quota percentage, and total surveys. Filter by name, email, address, constituency name, or active status.
+  </Card>
+  <Card title="View survey activity" icon="eye" href="/features/voter-survey">
+    Click the survey view icon on any canvasser row to open a detailed view of all surveys that canvasser has submitted.
+  </Card>
+  <Card title="View daily quota" icon="chart-bar" href="/features/canvassing">
+    Click the quota view icon to open the canvasser's daily survey count history, filterable by date range.
+  </Card>
+  <Card title="Edit canvasser profile" icon="pencil" href="/roles/manager">
+    Update the canvasser's name, email, phone, address, constituency assignments, and active status at any time.
+  </Card>
+</CardGroup>
+
+### Deleting a canvasser
+
+A canvasser account cannot be deleted if they have existing survey records. Attempting to delete such an account returns an error. To remove a canvasser from active duty without losing their data, set their status to **Inactive** instead.
+
+## Real-time survey notifications
+
+Fire242 uses **Socket.IO** to deliver real-time updates to managers when canvassers submit surveys. Survey counts and quota percentages update as canvassers work in the field — no page refresh required.
+
+The real-time channel is established when a manager's session opens. It receives events for any survey submission made by canvassers within that manager's assigned constituencies.
+
+<Info>
+Real-time notifications require a stable network connection on both the canvasser's device and the manager's browser session. If the connection drops, data will re-sync when the connection is restored.
+</Info>
+
+## Tips for effective canvassing
+
+<AccordionGroup>
+  <Accordion title="Filter to unsurveyed voters first">
+    Use the **Total Unsurveyed Voters** card on the dashboard to navigate directly to voters who haven't been contacted yet. This prevents revisiting already-surveyed households.
+  </Accordion>
+  <Accordion title="Use address live search">
+    The voter table supports live address search. As you type a street name, matching addresses auto-populate. Use this to find a specific household quickly in a large voter list.
+  </Accordion>
+  <Accordion title="Check your quota at the end of each day">
+    Visit the Daily Quota page before finishing your shift to confirm all surveys you submitted have been recorded. If the count looks wrong, contact your manager.
+  </Accordion>
+  <Accordion title="Stay within your assigned constituencies">
+    The platform's geo-fencing feature tracks canvasser locations. Surveys submitted from outside an assigned constituency area may be flagged. See the geo-fencing documentation for details.
+  </Accordion>
+</AccordionGroup>
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Constituencies" icon="map" href="/features/constituencies">
+    Learn how constituencies are created and how canvassers are linked to them.
+  </Card>
+  <Card title="Geo-fencing & maps" icon="location-dot" href="/features/geo-fence">
+    Understand how the platform tracks canvasser locations in the field.
+  </Card>
+  <Card title="Voter survey" icon="clipboard" href="/features/voter-survey">
+    Details on the survey form canvassers complete for each voter interaction.
+  </Card>
+  <Card title="Canvasser role" icon="user" href="/roles/canvasser">
+    Full reference for canvasser permissions and accessible features.
+  </Card>
+</CardGroup>

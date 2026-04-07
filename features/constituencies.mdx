@@ -1,0 +1,160 @@
+---
+title: "Constituencies"
+description: "Create and manage constituencies, assign managers and canvassers to them, and understand how they connect voters, canvassers, and polling locations in Fire242."
+keywords: ["constituency", "boundaries", "voter management", "canvasser assignment", "polling locations", "island"]
+---
+
+Constituencies are the fundamental geographic unit in Fire242. Every voter belongs to a constituency. Every canvasser is assigned to one or more constituencies. Every polling location sits within a constituency. Managing constituencies well is the foundation of a well-organised field operation.
+
+## What a constituency contains
+
+Each constituency record in Fire242 holds:
+
+- **Name** — the official name of the constituency
+- **Island** — the island the constituency belongs to (e.g., New Providence, Grand Bahama)
+- **Status** — Active or Inactive
+- **Associated voters** — all registered voters whose records are linked to this constituency
+- **Assigned canvassers** — data entry agents working this area
+- **Polling locations** — the polling stations where voters in this constituency vote
+
+## Admin vs manager views
+
+<Tabs>
+  <Tab title="Admin view">
+    Admins have full control over constituency data. The constituency list is at `/panel/admin/constituency/list`.
+
+    From this view, admins can:
+
+    - **Search** by constituency name or island name
+    - **Create** a new constituency using the **Add New** button, which opens a slide-in sidebar form
+    - **Edit** an existing constituency by clicking the edit icon on any row
+    - **Delete** a constituency by clicking the delete icon (requires confirmation)
+    - **Export** the full list to a file
+    - **Reorder** constituencies by dragging rows — position is saved via the `update-positions` API
+
+    The list table shows each constituency's ID, name, island, and status (Active/Inactive badge).
+
+    Admins also manage the **polling locations** that belong to constituencies. Polling locations are managed separately under **Locations** (`/panel/admin/locations/list`) and are linked to a country record.
+  </Tab>
+  <Tab title="Manager view">
+    Managers see only the constituencies they have been assigned to. The view is at `/panel/manager/constituency/list`.
+
+    The manager's constituency list shows:
+
+    - Constituency ID
+    - Constituency name
+    - **Start time** and **End time** — the canvassing hours configured for this constituency (formatted in 12-hour time)
+    - An **edit** action that links to the system settings page for that constituency (`/panel/manager/system-settings/[id]`)
+
+    Managers use this view to check which areas they are responsible for and to adjust constituency-level settings such as canvassing hours.
+  </Tab>
+</Tabs>
+
+## Creating a new constituency
+
+<Note>
+Only admins can create constituencies. You must be logged in with the admin role to see the constituency management menu.
+</Note>
+
+<Steps>
+  <Step title="Go to the constituency list">
+    Navigate to **Constituencies** in the admin sidebar. The page lists all existing constituencies with their name, island, and status.
+  </Step>
+  <Step title="Click Add New">
+    Click the **Add New** button in the filter bar. A slide-in sidebar opens on the right side of the screen with the creation form.
+  </Step>
+  <Step title="Enter the constituency name">
+    Type the constituency name in the **Name** field. The name must be between 2 and 50 characters.
+  </Step>
+  <Step title="Select an island">
+    Choose the island this constituency belongs to from the **Select Island** dropdown. Islands are pre-configured in the system. If the island you need is not listed, contact a system administrator.
+  </Step>
+  <Step title="Set the status">
+    Select **Active** or **Inactive**. Active constituencies are visible to canvassers and appear in assignment dropdowns. Inactive constituencies are hidden from field operations.
+  </Step>
+  <Step title="Submit the form">
+    Click **Submit**. The constituency is created immediately and appears in the list. The sidebar closes automatically on success.
+  </Step>
+</Steps>
+
+## Editing a constituency
+
+To edit an existing constituency:
+
+1. Find the constituency in the admin list.
+2. Click the **edit** (pencil) icon on its row. A slide-in sidebar opens with the current values pre-populated.
+3. Update the name, island, or status as needed.
+4. Submit to save changes.
+
+## Assigning managers and canvassers
+
+Constituency assignment works differently for managers and canvassers:
+
+<AccordionGroup>
+  <Accordion title="Assigning a manager to a constituency">
+    Manager-to-constituency assignment is configured through the system settings for each constituency. From the manager's constituency list, click the edit icon on a constituency row to open `/panel/manager/system-settings/[id]`. This allows configuring the constituency's operational parameters including the manager responsible for it.
+  </Accordion>
+  <Accordion title="Assigning a canvasser to a constituency">
+    Canvassers are assigned to constituencies when their account is created or edited. In the **Add/Edit Canvasser** form (manager panel), use the **Select Constituency** multi-select field to choose one or more constituencies. A single canvasser can be active across multiple constituencies simultaneously. The assignment is reflected immediately on the canvasser's dashboard.
+  </Accordion>
+</AccordionGroup>
+
+## Relationship between constituencies, voters, and canvassers
+
+```text
+Island
+└── Constituency
+    ├── Voters (registered to this constituency)
+    ├── Canvassers (assigned to work this area)
+    └── Polling Locations (where voters cast ballots)
+```
+
+- A voter is registered to exactly one constituency (their `const` field in the voter record).
+- A canvasser can be assigned to many constituencies and sees all voters across each of them.
+- A polling location belongs to one constituency (linked via the location's country/region data).
+- Surveys submitted by a canvasser are always associated with the constituency the voter belongs to, not necessarily the canvasser's physical location at the time of submission.
+
+## Polling locations within constituencies
+
+Polling locations are the physical voting stations where registered voters cast ballots. They are managed by admins at **Locations → Locations List** (`/panel/admin/locations/list`).
+
+Each location record includes:
+
+| Field | Description |
+|---|---|
+| Name | The polling station name |
+| Country | The country the location is in |
+| Status | Active or Inactive |
+
+Admins can add new locations via **Add New**, edit them inline, or delete them. The list supports filtering by location name and CSV export.
+
+<Warning>
+Deleting a polling location that has voters linked to it may affect voter records. Verify there are no active voter associations before deleting a location.
+</Warning>
+
+## Constituency live search
+
+Throughout the platform, wherever a constituency must be selected — such as when assigning a canvasser or filtering a voter list — Fire242 provides a **live search** endpoint (`/livesearch-all-constituencies?search=`). As you type in the constituency field, matching results appear without requiring a full page load.
+
+## Exporting constituency data
+
+From the admin constituency list, click the **Export** button to download the full list. The export file includes constituency IDs, names, islands, and statuses.
+
+Managers can similarly export their assigned constituency list from `/panel/manager/constituency/list`.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Canvassing operations" icon="clipboard-list" href="/features/canvassing">
+    See how canvassers are assigned to constituencies and how they conduct surveys within them.
+  </Card>
+  <Card title="Voter database" icon="database" href="/features/voter-database">
+    Understand how voter records are linked to constituencies.
+  </Card>
+  <Card title="Geo-fencing & maps" icon="location-dot" href="/features/geo-fence">
+    Visualize canvasser activity across constituency geography on a live map.
+  </Card>
+  <Card title="Admin role" icon="shield" href="/roles/admin">
+    Full reference for admin permissions, including constituency creation and editing.
+  </Card>
+</CardGroup>

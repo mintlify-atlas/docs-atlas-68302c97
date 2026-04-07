@@ -1,0 +1,124 @@
+---
+title: 'Manager role'
+description: 'Managers oversee canvassers within their assigned constituencies, monitor voter reports and exit poll data, and manage survey activity.'
+keywords: ['manager', 'manager panel', 'canvassers', 'constituencies', 'exit polls', 'reports']
+---
+
+Managers are responsible for coordinating canvassing activity within one or more assigned constituencies. They can view voter reports, monitor canvasser output, review exit poll data, and access opinion survey results.
+
+Managers log in and are routed to `/panel/manager/dashboard`.
+
+## How managers are created
+
+Only an Admin can create a Manager account.
+
+<Steps>
+  <Step title="Navigate to Manager in the admin sidebar">
+    Go to **Manager → Add Manager** in the admin panel.
+  </Step>
+  <Step title="Fill in account details">
+    Enter the manager's name, email, and credentials.
+  </Step>
+  <Step title="Configure permissions">
+    Go to **Permissions → Manager Permissions** to enable the specific pages this manager should access. Pages are toggled individually between `active` and `inactive`.
+  </Step>
+</Steps>
+
+<Note>
+  The manager sidebar only displays items that have been enabled by an Admin. A manager with no active permissions will see an empty sidebar after the dashboard.
+</Note>
+
+## Constituency assignment
+
+Managers are assigned to specific constituencies by the Admin. When the `timePermission` flag is enabled for their account, managers can view their assigned constituencies at **Assigned Constituencies** in the sidebar and access **System Settings**.
+
+## Sidebar navigation
+
+The items a manager sees depend on their permission configuration. The full set of available sections is listed below.
+
+### Dashboard
+
+Summary stats for the manager's assigned area, including registered voters, unsurveyed voters, and survey progress.
+
+### Reports
+
+Voter lists filtered by registration and survey status, scoped to the manager's constituency.
+
+- Registered Voters
+- Registered Voter but Living Elsewhere
+- Duplicate Registered Voters
+- Newly Registered Voters
+- Upcoming Birthday List
+- Unregistered Voters List
+- Unregistered Contacted Voters
+- Unregistered Uncontacted Voters
+- Deceased Voters Surveyed
+- Voters Not Yet Surveyed
+- Voters Surveyed
+- Survey Call Center List
+- Constituency Reports 1–5
+
+### Total
+
+Filtered voter counts by party affiliation and status.
+
+- Total FNM
+- Total PLP
+- Total COI
+- Total Undecided
+- Total Never Voters
+
+### Opinion Survey
+
+- **Opinion Report** — Percentage breakdown of survey responses by question for the manager's constituency.
+
+### Data Entries (canvassers)
+
+- **Data Entry List** — View canvassers assigned to this manager.
+- **Add Data Entry** — Create a new canvasser account under this manager.
+
+### Survey
+
+- **Survey List** — View all surveys submitted by canvassers.
+- **Add Survey** — Initiate a new survey session.
+
+### Exit Polls
+
+Election-day data for the manager's constituency.
+
+- **Print Card** — Print voter cards for polling stations.
+- **Polling Card Result** — View polling card results.
+- **Election Day Report** — Summary report for election day.
+- **Election Day Graph** — Visual breakdown of election day data.
+- **FNM Voters / PLP Voters / DNA Voters / UNK Voters** — Party-specific voter lists from exit polling.
+
+### Assigned Constituencies
+
+View the list of constituencies assigned to this manager. Only visible when `timePermission` is enabled.
+
+### System Settings
+
+Access global platform settings. Only visible when `timePermission` is enabled.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Canvassing" href="/features/canvassing">
+    How canvassers conduct surveys and how managers monitor activity.
+  </Card>
+  <Card title="Constituencies" href="/features/constituencies">
+    How constituencies are defined and assigned to managers.
+  </Card>
+  <Card title="Exit polls" href="/features/exit-polls">
+    Collecting and reviewing election day polling data.
+  </Card>
+  <Card title="Permissions" href="/features/permissions">
+    Enabling and disabling pages for managers.
+  </Card>
+  <Card title="Voter reports" href="/features/voter-reports">
+    Registered, unregistered, and surveyed voter lists.
+  </Card>
+  <Card title="User management" href="/features/user-management">
+    Creating and managing manager accounts.
+  </Card>
+</CardGroup>

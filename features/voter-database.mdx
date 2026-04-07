@@ -1,0 +1,143 @@
+---
+title: "Voter Database"
+description: "Browse, search, filter, and export voter records across all views in Fire242."
+---
+
+The voter database is the central repository of all voter records in Fire242. It stores registration data from the national electoral roll and enriches each record with survey responses, party affiliation, contact details, and location information collected by canvassers and call center agents.
+
+## Data stored per voter
+
+Each voter record contains the following fields:
+
+| Field | Description |
+|---|---|
+| **Voter ID** | Unique electoral roll identifier |
+| **First / Second / Last name** | Full legal name |
+| **Date of birth** | Used for age filtering and birthday lists |
+| **Constituency** | Registered constituency code and name |
+| **Polling division** | Polling station number within the constituency |
+| **House number / Address** | Residential address |
+| **Apt no / Blk no** | Apartment and block number where applicable |
+| **pobcn / pobis / pobse** | Place-of-birth country, island, and settlement codes |
+| **Party affiliation** | FNM, PLP, COI, DNA, BCP, BDM, or Undecided |
+| **Registration status** | Registered or unregistered in the electoral roll |
+| **Survey status** | Whether the voter has been surveyed |
+| **Contact info** | Home, work, and cell phone numbers; email address |
+| **Location** | Home constituency, off island, or outside country |
+| **Voting decision** | Yes, No, or Undecided |
+| **Voting for** | Party the voter intends to support |
+| **Challenge flag** | Whether a survey response has been flagged for review |
+
+## Voter list views
+
+Fire242 provides specialised list views to surface different segments of voters. All views share the same data table interface with consistent search and export controls.
+
+<AccordionGroup>
+  <Accordion title="Registered voters">
+    Shows all voters present on the electoral roll. Filterable by voter ID, first name, last name, constituency, polling division, and address. Supports age-below-25 filtering.
+  </Accordion>
+  <Accordion title="Unregistered voters">
+    Voters added during surveys who are not yet on the electoral roll. These records were created by canvassers when the surveyed person could not be found in the registered voter database.
+  </Accordion>
+  <Accordion title="Surveyed voters">
+    All voters for whom a survey has been completed. Columns include survey ID, surveyed-by name and email, voting decision, party affiliation, location, challenge status, and survey date. Supports filtering by date range, location, voting decision, voting for (party), surveyed-by user, and challenge flag.
+  </Accordion>
+  <Accordion title="Not-surveyed voters">
+    Registered voters who have not yet been surveyed. Use this view to identify gaps in canvassing coverage.
+  </Accordion>
+  <Accordion title="Survey call center list">
+    Surveys submitted through the call center channel. Each row shows caller name, caller phone, caller email, call date and time, voting decision, voting for, candidate follow-up notes, address special concerns, voter contacts, and completion status.
+  </Accordion>
+  <Accordion title="Newly registered voters">
+    Voters added to the database after the initial upload, created during the survey process.
+  </Accordion>
+  <Accordion title="Registered voters living elsewhere">
+    Voters registered in the constituency who are currently located off-island or outside the country.
+  </Accordion>
+  <Accordion title="Registered voters at a different address">
+    Voters whose residential address does not match the address on the electoral roll.
+  </Accordion>
+  <Accordion title="Unregistered voters (contacted and uncontacted)">
+    Two separate views: voters who are unregistered and have been contacted, and those who have not yet been contacted.
+  </Accordion>
+  <Accordion title="Unregistered voters at a different address">
+    Unregistered voters whose survey address differs from their electoral address.
+  </Accordion>
+  <Accordion title="Voters recorded as deceased">
+    Voters marked as deceased during a survey, including the date of death where recorded.
+  </Accordion>
+  <Accordion title="Upcoming birthdays">
+    Voters with birthdays in the near future, useful for targeted outreach.
+  </Accordion>
+  <Accordion title="Duplicate records">
+    Registered voters who appear to be duplicated in the database. Use this view to identify and reconcile duplicate entries.
+  </Accordion>
+</AccordionGroup>
+
+## Searching voters
+
+Each list view exposes a filter bar at the top of the table. The following search fields are available depending on the view:
+
+<Tabs>
+  <Tab title="By name">
+    Enter a first name in the **First Name** field or a last name in the **Last Name** field. Both fields accept partial matches.
+  </Tab>
+  <Tab title="By voter ID">
+    Enter the numeric voter ID in the **Voter ID** field for an exact-match lookup.
+  </Tab>
+  <Tab title="By address">
+    The address field uses live search — type the beginning of a street address and matching suggestions appear as a dropdown. Select a suggestion to filter the table to that address.
+  </Tab>
+  <Tab title="By constituency / polling">
+    Enter a **Constituency ID** (numeric code) or **Registered Const Name** (text) to narrow results to a specific constituency. Enter a **Polling Division Number** to filter further to a specific polling station.
+  </Tab>
+</Tabs>
+
+### Sorting
+
+Use the **Sort By** dropdown to reorder results by first name, last name, constituency, voter ID, or polling division.
+
+### Age filter
+
+Toggle the **Age Below 25** radio button to show only voters under 25 years old, useful for targeting younger voters during canvassing.
+
+## Column visibility
+
+The table toolbar includes a **Columns** button. Click it to open the column visibility panel, where you can check or uncheck individual columns. Your preferences are saved in the browser's `localStorage` and persist between sessions.
+
+<Note>
+If a column is missing from the table after a schema update (for example, the Challenge column), it may have been hidden in a previous session. Open the Columns panel and re-enable it, or clear the saved preference from the browser console:
+
+```javascript
+const userId = localStorage.getItem("userId");
+const safeUrl = window.location.href.replace(/[^a-zA-Z0-9]/g, "_");
+localStorage.removeItem(`table_columns_${userId}_${safeUrl}`);
+```
+
+Then refresh the page.
+</Note>
+
+## Exporting data
+
+Every list view has an **Export** button in the filter bar. Clicking it downloads the current filtered result set as a CSV file. Some views (such as Constituency Report 5) also support **Export PDF** for print-ready output.
+
+<Tip>
+Apply filters before exporting to download only the records you need. Exporting an unfiltered list on large constituencies can produce very large files.
+</Tip>
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Voter upload" icon="upload" href="/features/voter-upload">
+    Bulk import voter records from an Excel file.
+  </Card>
+  <Card title="Voter surveys" icon="clipboard-list" href="/features/voter-survey">
+    Conduct door-to-door or call center surveys and record responses.
+  </Card>
+  <Card title="Voter reports" icon="chart-bar" href="/features/voter-reports">
+    View aggregated constituency and party breakdown reports.
+  </Card>
+  <Card title="Canvassing" icon="map-pin" href="/features/canvassing">
+    Assign and track canvassing activity in the field.
+  </Card>
+</CardGroup>

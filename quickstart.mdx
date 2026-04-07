@@ -1,80 +1,94 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: "Quick start"
+description: "Sign in to Fire242 and complete your first voter survey in a few steps."
 ---
 
-## Get started in three steps
+This guide walks you through signing in, orienting yourself on the dashboard, finding a voter, conducting a survey, and viewing the results. The steps apply to the Canvasser (user) role, which is the most common starting point for new users.
 
-Get your documentation site running locally and make your first customization.
+<Info>
+  Admins and Managers follow the same sign-in process but land on different dashboards with different features available. See [User roles](/roles/overview) for role-specific details.
+</Info>
 
-### Step 1: Set up your local environment
+<Steps>
+  <Step title="Sign in to Fire242">
+    Navigate to the Fire242 login page. Enter your **email address** and **password**, then click **Sign In**.
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    If you have a valid session from a previous visit, the platform automatically redirects you to your role dashboard — you won't see the login form again until your session expires.
 
-### Step 2: Deploy your changes
+    <Warning>
+      Fire242 accounts are created by an Admin. If you don't have credentials yet, contact your administrator to have an account set up for you.
+    </Warning>
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    On successful sign-in, you are redirected to your role dashboard:
+    - Admins go to `/panel/admin/dashboard`
+    - Managers go to `/panel/manager/dashboard`
+    - Canvassers go to `/panel/user/dashboard`
+  </Step>
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+  <Step title="Explore your dashboard">
+    Your dashboard shows live statistics relevant to your role. For Canvassers, this includes your surveyed voter count, your assigned quota, and recent activity.
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+    Use the sidebar navigation to move between sections:
+    - **Voters** — search and view voter records
+    - **Survey** — open the voter survey form
+    - **Polling result** — view polling-day results for your constituency
+    - **View quota** — check your surveying targets and progress
 
-### Step 3: Go live
+    <Tip>
+      Check your quota on the **View quota** page before heading out. It shows how many voters you are expected to survey and how many you have completed.
+    </Tip>
+  </Step>
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+  <Step title="Find a voter">
+    Navigate to **Voters** in the sidebar. Use the search to locate the voter you want to survey.
 
-## Next steps
+    You can search by:
+    - **Name** — enter a first name, last name, or both
+    - **Voter ID** — enter the voter's registration number
+    - **Address** — enter a street address or house number
+    - **National Registry** — search the national voter registry by name or ID
 
-Now that you have your docs running, explore these key features:
+    Results appear as you type. Select the voter from the suggestions to open their full record.
+
+    The voter record shows their party affiliation, registration status, polling division, address, and any prior survey responses.
+  </Step>
+
+  <Step title="Conduct a survey">
+    From the voter's record, click the survey action to open the survey form, or navigate to **Survey** in the sidebar and search for the voter there.
+
+    The survey form steps through a set of questions configured by your Admin or Manager. For each question, select or enter the voter's response.
+
+    When you reach the final step, review the responses and click **Submit** to save the survey.
+
+    <Note>
+      Survey questions are set up by Admins and Managers. If you see unexpected questions or options, contact your Manager to review the survey configuration.
+    </Note>
+  </Step>
+
+  <Step title="View your results">
+    After submitting a survey, you can confirm it was recorded:
+
+    - Your **dashboard** updates the surveyed voter count immediately.
+    - The **Voters** list shows a surveyed indicator on the voter's record.
+    - The voter's survey history shows the response you just submitted.
+
+    Managers and Admins see your submissions aggregated in their reports and can view individual survey detail through the admin panel.
+  </Step>
+</Steps>
+
+## What's next
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Authentication" icon="lock" href="/authentication">
+    Understand how sessions, tokens, and automatic logout work.
+  </Card>
+  <Card title="Voter surveys" icon="clipboard-list" href="/features/voter-survey">
+    Full reference for the survey form, question types, and submission flow.
+  </Card>
+  <Card title="Voter database" icon="database" href="/features/voter-database">
+    Advanced search and filtering options in the voter list.
+  </Card>
+  <Card title="Canvassing" icon="map-location-dot" href="/features/canvassing">
+    Quota management and field canvassing workflow.
+  </Card>
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>

@@ -1,0 +1,180 @@
+---
+title: "Voter Surveys"
+description: "Conduct door-to-door and call center surveys to collect voter information and voting intentions."
+---
+
+The survey module is the primary data-collection tool in Fire242. Canvassers and call center agents use it to find a voter, record personal and contact information, capture voting intentions, and answer campaign questions — all in a single multi-step form.
+
+## How surveys work
+
+Each survey is tied to a single voter record. The canvasser searches for the voter, reviews pre-filled information from the electoral roll, fills in any missing details, answers the campaign questions, and submits. Submitted surveys are immediately visible in the [surveyed voters list](/features/voter-database).
+
+Surveys can be conducted:
+
+- **In the field** — by canvassers using the survey form on a mobile device or laptop.
+- **By phone** — by call center agents, who mark the survey as a call center submission.
+
+## Multi-step survey form
+
+The survey form is divided into five steps. You must complete each step before advancing to the next.
+
+<Steps>
+  <Step title="Search for the voter">
+    Enter one or more search terms to find the voter in the database. Four search types are available:
+
+    <Tabs>
+      <Tab title="By name">
+        Enter a **First Name** and/or **Last Name**. Results appear as you type (debounced to 300 ms). Select the correct voter from the suggestion list.
+      </Tab>
+      <Tab title="By voter ID">
+        Enter the voter's electoral roll **Voter ID**. This performs an exact-match lookup and is the fastest way to find a specific record.
+      </Tab>
+      <Tab title="By address">
+        Enter a street address. Suggestions appear as a live search. Useful when the voter does not know their voter ID.
+      </Tab>
+      <Tab title="National Registry">
+        Search the national registry instead of the local voter database. Three sub-types are available: national voter ID, national voter name (first/last), or national voter address. When a voter is found via the national registry, the form enters a unique verification step before proceeding.
+      </Tab>
+    </Tabs>
+
+    <Note>
+    If you cannot find the voter in the database, you can add them as an unregistered voter. See [Adding unregistered voters](#adding-unregistered-voters) below.
+    </Note>
+  </Step>
+  <Step title="Review voter details">
+    Once a voter is selected, the form displays their pre-filled information from the electoral roll: name, date of birth, address, constituency, and polling division. Verify that these match the person in front of you.
+
+    If the voter was found via the national registry, an additional verification step appears to confirm identity before proceeding.
+  </Step>
+  <Step title="Fill in survey data">
+    Enter or update the voter's personal and contact information. The following fields are required:
+
+    | Field | Options |
+    |---|---|
+    | **Sex** | Male, Female, Other |
+    | **Marital status** | Single, Married, Divorced, Widowed |
+    | **Employed** | Yes, No |
+    | **Children** | 0, 1, 2, 3, 4, 5+ |
+    | **Employment type** | Full-time, Part-time, Self-employed, Unemployed |
+    | **Religion** | Christianity, Islam, Judaism, Hinduism, Buddhism, Other |
+    | **Home phone** | Country code + number |
+    | **Work phone** | Country code + number |
+    | **Cell phone** | Country code + number (defaults to 1 242 999 9999) |
+    | **Email** | Valid email address |
+    | **Voting decision** | Yes, No, Undecided |
+    | **Voting for** | Party selection |
+    | **Special comments** | Free text |
+
+    Optional fields include:
+
+    - **Located** — whether the voter lives in their home constituency, off island, or outside the country. If off island, an island selector appears. If outside the country, a country selector appears.
+    - **Is deceased** — toggle if the voter has died, and enter the date of death.
+    - **Call center** — toggle if this survey is being submitted by a call center agent rather than a field canvasser.
+    - **Voted in last election** — Yes or No.
+    - **Where voted** — location of the polling station used in the last election.
+    - **Other comments** — free text, maximum 225 characters.
+  </Step>
+  <Step title="Answer campaign questions">
+    Up to three configurable survey questions are presented. Questions and their answer options are loaded dynamically from the server and can be updated by administrators without a code change. Each question has a corresponding answer field.
+  </Step>
+  <Step title="Review and submit">
+    A summary of the completed survey is displayed. Review all fields, then click **Submit** to save the survey. A success confirmation appears and the form resets for the next voter.
+  </Step>
+</Steps>
+
+## Adding unregistered voters
+
+If a voter cannot be found in the database, you can add them as an unregistered voter during the survey. This is used for people who are eligible to vote but have not yet registered, or whose registration cannot be confirmed in the field.
+
+To add an unregistered voter:
+
+1. After an unsuccessful search, click **Add Unregistered Voter**.
+2. Enter the person's first name, last name, phone number, and any other available information.
+3. Continue with the survey as normal.
+
+Unregistered voters are stored separately and appear in the [unregistered voter views](/features/voter-database) in the admin panel.
+
+## Call center surveys
+
+When a survey is conducted by phone rather than in person, enable the **Call Center** toggle in step 3. This flags the survey as a call center record and makes it visible in the **Survey Call Center List** view. Call center records include additional fields:
+
+- Caller name
+- Caller phone number
+- Caller email
+- Date and time of call
+- Number dialled
+- Number of calls made
+- Candidate follow-up notes
+- Address special concerns
+- Voter contacts notes
+- Whether the voter is soliciting volunteers
+
+Call center records can be marked **Complete** from the admin panel once follow-up actions have been taken.
+
+## Challenge flag
+
+The challenge flag marks a survey response as disputed or requiring review. It is a toggle switch visible in the **Surveyed Voters** list.
+
+- A **red toggle** (on) means the survey is challenged.
+- A **grey toggle** (off) means the survey is not challenged.
+
+**To toggle the challenge status:**
+
+1. Open the [Surveyed Voters list](/features/voter-database).
+2. Find the survey row.
+3. Click the toggle in the **Challenge** column.
+
+The change is saved immediately via an API call. The table refreshes to reflect the updated status.
+
+<Note>
+If the Challenge column is not visible in the table, it may have been hidden. Click **Columns** in the table toolbar and enable the Challenge column. See the [voter database](/features/voter-database) page for full instructions on restoring hidden columns.
+</Note>
+
+## Viewing and editing surveys
+
+From the **Surveyed Voters** list, each row has two action buttons:
+
+- **View** (eye icon) — opens the survey detail page showing all recorded responses.
+- **Edit** (pencil icon) — opens the survey edit form to correct any errors.
+
+## Survey data collected
+
+The following data is saved with each completed survey:
+
+<AccordionGroup>
+  <Accordion title="Voter identity">
+    Voter ID, name, date of birth, house number, address, constituency, polling division, apartment number, block number, place-of-birth codes (pobcn, pobis, pobse).
+  </Accordion>
+  <Accordion title="Demographics">
+    Sex, marital status, number of children, employment status, employment type, employment sector, religion, deceased flag, date of death.
+  </Accordion>
+  <Accordion title="Location">
+    Located (home constituency / off island / outside country), island (if off island), country (if outside country).
+  </Accordion>
+  <Accordion title="Contact information">
+    Home phone (code + number), work phone (code + number), cell phone (code + number), email address.
+  </Accordion>
+  <Accordion title="Voting intentions">
+    Voting decision (yes / no / undecided), voting for (party), last voted election, voted in house, voted for party, where voted.
+  </Accordion>
+  <Accordion title="Survey metadata">
+    Survey date, surveyed-by user name and email, call center flag, challenge flag, special comments, other comments, campaign question answers (up to three questions).
+  </Accordion>
+</AccordionGroup>
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Voter database" icon="database" href="/features/voter-database">
+    View and filter all surveyed and unsurveyed voters.
+  </Card>
+  <Card title="Voter reports" icon="chart-bar" href="/features/voter-reports">
+    Analyse survey results by constituency and party.
+  </Card>
+  <Card title="Canvassing" icon="map-pin" href="/features/canvassing">
+    Manage field canvassing assignments and targets.
+  </Card>
+  <Card title="Canvasser role" icon="user" href="/roles/canvasser">
+    Permissions and capabilities for canvassers.
+  </Card>
+</CardGroup>

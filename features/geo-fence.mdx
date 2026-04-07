@@ -1,0 +1,123 @@
+---
+title: "Geo-Fencing & Maps"
+description: "Visualize canvasser locations on an interactive map and verify that field agents are operating within their assigned constituency boundaries."
+keywords: ["geo-fence", "map", "canvasser location", "MapLibre", "Leaflet", "field tracking"]
+---
+
+The geo-fencing feature in Fire242 provides a live geographic view of where canvassers are operating. Administrators can see all user locations plotted on an interactive map, clustered by proximity, and can drill into individual canvasser details from any map marker.
+
+<Note>
+The geo-fence map is accessible to **admins only**. Navigate to **Geo-Fence → Map** in the admin panel to open it. Managers and canvassers do not have access to this section.
+</Note>
+
+## Map overview
+
+The map is built with **React Leaflet** backed by **OpenStreetMap** tiles. It automatically fits its viewport to show all plotted users when it loads. If there are many users close together, they are grouped into numbered **clusters** — colored circles that show how many markers they contain. Clicking a cluster zooms in to reveal individual markers.
+
+The map centers on the Bahamas by default (approximately 25.0°N, 77.0°W) and opens at zoom level 9, which shows the full island chain. The viewport adjusts automatically based on where users are located.
+
+## Accessing the map
+
+<Steps>
+  <Step title="Log in as an admin">
+    The geo-fence section is only visible to users with the admin role. If you do not see the **Geo-Fence** menu item, confirm your account has admin permissions.
+  </Step>
+  <Step title="Navigate to Geo-Fence → Map">
+    In the admin sidebar, expand the **Geo-Fence** section and click **Map**. The page is at `/panel/admin/geo-fence/map`.
+  </Step>
+  <Step title="Wait for the map to load">
+    The map loads Leaflet and MarkerCluster assets on first open. A loading spinner is shown while the resources initialise. On subsequent visits the assets are already cached.
+  </Step>
+  <Step title="Interact with the map">
+    Once loaded, you can pan, zoom, and click markers to see individual user details.
+  </Step>
+</Steps>
+
+## Map interactions
+
+### Clusters
+
+When multiple users are located near each other, they appear as a single numbered circle. The circle colour indicates density:
+
+- Click a cluster to **zoom in** and break it apart into smaller clusters or individual markers.
+- As you zoom in further, clusters resolve into individual user pins.
+
+### Individual markers
+
+Clicking an individual marker opens a **popup** with the following details:
+
+- Full name
+- Email address
+- Phone number (if set)
+- Address
+- Internal user ID
+
+Close the popup using the × button, or click elsewhere on the map.
+
+### Navigation controls
+
+- **Drag** to pan the map.
+- **Scroll wheel** or pinch to zoom.
+- **Double-click** to zoom in on a point.
+- The standard Leaflet zoom control (+/−) is in the top-left corner.
+
+## Constituency boundaries
+
+<Info>
+The map currently plots user locations. Constituency boundary overlays — showing the geographic polygons for each constituency — are supported through the MapLibre GL component (`MapComponent.js`) which uses GeoJSON sources and layers. This can be enabled by supplying GeoJSON boundary data for each constituency.
+</Info>
+
+The `MapComponent` in the admin geo-fence section uses **react-map-gl/maplibre** with the CARTO Positron base style. It supports:
+
+- **GeoJSON polygon layers** for constituency boundaries
+- **Clustered point layers** for canvasser positions (cluster layer, cluster count layer, unclustered point layer)
+- **Popup overlays** with canvasser name, email, phone, address, and user ID when clicking an unclustered point
+
+The interactive layer IDs are `clusters` and `unclustered-point`. Clicking a cluster calls `onClusterClick` to zoom into the cluster bounds; clicking an unclustered point opens the popup.
+
+## What admins can do on the map
+
+| Action | How |
+|---|---|
+| See all canvasser positions | Markers are rendered automatically on page load |
+| Identify dense canvassing areas | Clusters indicate concentrations of activity |
+| View a canvasser's contact details | Click their marker to open the popup |
+| Zoom to a specific island or area | Scroll or click a cluster to zoom in |
+| Confirm canvassers are in their area | Compare marker positions against known constituency geography |
+
+## Map loading behaviour
+
+The map uses **dynamic imports** to avoid server-side rendering (SSR) issues with Leaflet. All map components — `MapContainer`, `TileLayer`, `MarkersComponent`, and `FitBounds` — are loaded client-side only.
+
+On load, the `FitBounds` component calculates the bounding box of all plotted users and calls `map.fitBounds()` with a 10% padding and a maximum zoom of 12. This ensures the full set of markers is always visible without needing to pan or zoom manually.
+
+<Warning>
+If the MarkerCluster script fails to load from the CDN, the map falls back to rendering individual markers without clustering. All data is still visible; markers simply won't group at low zoom levels.
+</Warning>
+
+## Tile attribution
+
+The map uses OpenStreetMap tiles with standard attribution:
+
+```text
+© OpenStreetMap contributors
+```
+
+The tile URL pattern is `https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png` with a maximum zoom of 19 and minimum zoom of 3.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Constituencies" icon="map" href="/features/constituencies">
+    Learn how constituencies are defined and managed, which determines the boundaries canvassers should operate within.
+  </Card>
+  <Card title="Canvassing operations" icon="clipboard-list" href="/features/canvassing">
+    Understand how canvassers are assigned to constituencies and how their activity is tracked.
+  </Card>
+  <Card title="Admin role" icon="shield" href="/roles/admin">
+    Full reference for admin permissions, including access to geo-fence features.
+  </Card>
+  <Card title="User management" icon="users" href="/features/user-management">
+    Manage canvasser accounts and their profile data, including location-relevant information.
+  </Card>
+</CardGroup>

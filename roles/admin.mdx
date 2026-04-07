@@ -1,0 +1,157 @@
+---
+title: 'Admin role'
+description: 'Admins have full access to all Fire242 features, including voter management, user administration, exit polls, reports, and system configuration.'
+keywords: ['admin', 'admin panel', 'voter management', 'system settings', 'permissions', 'exit polls']
+---
+
+The Admin role has unrestricted access to every section of Fire242. Admins are responsible for setting up the system, managing all user accounts, and maintaining reference data such as constituencies, parties, and locations.
+
+Admins log in and are routed to `/panel/admin/dashboard`.
+
+<Note>
+  Admin pages are not subject to the page-level permission system used by Managers and Canvassers. All sidebar items are always visible to admins.
+</Note>
+
+## Dashboard
+
+The admin dashboard displays a real-time summary of the voter database. Each stat card is clickable and links to the corresponding filtered list.
+
+| Stat card | Description |
+|---|---|
+| Total FNM | Voters surveyed as supporting FNM |
+| Total PLP | Voters surveyed as supporting PLP |
+| Total COI | Voters surveyed as supporting COI |
+| Total Others | Voters supporting other parties |
+| Total Other Parties | Aggregate of non-FNM/PLP/COI parties |
+| Total Undecided | Voters recorded as unknown/undecided |
+| Total 1st Time Voters (25yrs) | First-time eligible voters |
+| Unregistered FNM | FNM-leaning voters not yet on the electoral roll |
+| Total Registered Voters | All voters confirmed on the electoral roll |
+| Total Unregistered Voters | Voters not on the electoral roll |
+| Total Surveyed Voters | Voters with a completed survey |
+
+The dashboard also supports filtering by **Current Records** or **Old Records** via the `exists_in_database` parameter.
+
+## Sidebar navigation
+
+### Data
+
+Reference data that supports the rest of the system.
+
+- **Parties** — Manage political parties (FNM, PLP, COI, and others).
+- **Constituencies** — Define and manage electoral constituencies.
+- **Locations** — Manage polling locations and geographic subdivisions.
+- **Countries** — Manage country reference data.
+- **Excel Upload** — Bulk-import voters from a spreadsheet file.
+- **Dropdown Setting** — Configure dropdown options used throughout forms.
+
+### Reports
+
+Detailed voter lists filtered by registration and survey status.
+
+- Registered Voters List
+- Registered Voter but Living Elsewhere
+- Duplicate Registered Voters List
+- Newly Registered Voters List
+- Upcoming Birthday List
+- Unregistered Voters List
+- Unregistered Contacted Voters
+- Unregistered Uncontacted Voters
+- Deceased Voters Surveyed
+- Voters Not Yet Surveyed
+- Voters Surveyed
+- Survey Call Center List
+- Constituency Reports 1–5
+
+### Opinion Survey
+
+- **Questions & Answers** — Create and manage survey questions.
+- **Opinion Report** — View percentage breakdowns of survey responses by question.
+
+### Admins
+
+- **Admins List** — View all admin accounts.
+- **Add Admin** — Create a new admin account.
+
+### Data Entries
+
+Manage canvasser (data entry) accounts.
+
+- **Data Entry List** — View all canvasser accounts.
+- **Add Data Entry** — Create a new canvasser account.
+- **Data Entry Activity** — Audit log of canvasser survey activity.
+
+### Manager
+
+- **Managers List** — View all manager accounts.
+- **Add Manager** — Create a new manager account.
+
+### Total
+
+Filtered totals for each voter category, matching the dashboard stat cards.
+
+- Total FNM / Total PLP / Total COI / Total Other Parties
+- Total Never Voters
+- Total Undecided
+- Total First Time Voters
+- Total Unregistered FNM
+
+### Permissions
+
+Control which pages are accessible to each role.
+
+- **Data Entry Permissions** — Enable or disable specific pages for canvassers. Toggle each page's status between `active` and `inactive`.
+- **Manager Permissions** — Enable or disable specific pages for managers.
+
+<Tip>
+  Changes to permissions take effect immediately. The manager or canvasser's sidebar updates on their next page load.
+</Tip>
+
+### Exit Polls
+
+Election-day data collection and reporting.
+
+- **Print Card** — Print voter identification cards for polling stations.
+- **Voter Management Report** — Summary report for voter management staff.
+- **Election Day Report** — Aggregate results for election day.
+- **FNM Voters / PLP Voters / COI Voters / UNK Voters** — Breakdowns by party affiliation.
+- **Polling Card Result** — View, create, and edit polling card results.
+- **Election Day Graph** — Visual chart of election day turnout and results.
+- **Polling Election Day Graph** — Polling-station-level election day graph.
+
+### Geo-Fence
+
+Map-based view for defining and managing geographic boundaries tied to constituencies and polling locations.
+
+### System Settings
+
+Global configuration for the Fire242 platform, including labels, toggles, and operational parameters.
+
+## Feature pages
+
+<CardGroup cols={2}>
+  <Card title="Voter database" href="/features/voter-database">
+    Searching, filtering, and viewing voter records.
+  </Card>
+  <Card title="Voter upload" href="/features/voter-upload">
+    Bulk importing voters via Excel.
+  </Card>
+  <Card title="Exit polls" href="/features/exit-polls">
+    Collecting and reviewing election day polling data.
+  </Card>
+  <Card title="Election reports" href="/features/election-reports">
+    Constituency reports and survey summaries.
+  </Card>
+  <Card title="User management" href="/features/user-management">
+    Creating and managing Admin, Manager, and Canvasser accounts.
+  </Card>
+  <Card title="Permissions" href="/features/permissions">
+    Controlling page-level access for Managers and Canvassers.
+  </Card>
+  <Card title="Geo-fence" href="/features/geo-fence">
+    Map-based boundary management.
+  </Card>
+  <Card title="System settings" href="/features/system-settings">
+    Global platform configuration.
+  </Card>
+</CardGroup>

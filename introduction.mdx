@@ -1,0 +1,71 @@
+---
+title: "Introduction"
+description: "Fire242 is a multi-role voter management and political canvassing platform for tracking voter data, coordinating field teams, conducting surveys, and reporting election results."
+---
+
+Fire242 gives political organizations a single platform to manage every part of a voter outreach operation — from maintaining the voter database to coordinating door-to-door canvassing, collecting exit polls, and analyzing results on election day.
+
+<Note>
+  Your access to features depends on the role assigned to your account. Fire242 has three roles: Admin, Manager, and Canvasser. See [User roles](/roles/overview) for a full breakdown.
+</Note>
+
+## Key capabilities
+
+**Voter database** — Maintain a comprehensive, searchable voter registry with party affiliation, registration status, polling division, address details, and complete contact history.
+
+**Voter surveys** — Canvassers use a structured, multi-step survey form to record voter responses in the field. Survey results are immediately visible in reports.
+
+**Geo-fencing** — Visualize constituency boundaries on an interactive map. Admins define geo-fence areas; the platform uses them to assign and validate canvasser locations.
+
+**Exit polls** — Collect and track real-time exit poll data on polling day, broken down by constituency and polling station.
+
+**Reporting** — Admins and Managers access dashboards with live statistics: surveyed voter counts, quota progress by canvasser, polling-day turnout graphs, and full election reports.
+
+**User management** — Admins create and manage accounts for Managers and Canvassers, assign constituency access, configure permissions, and control operating hours.
+
+## Who uses Fire242
+
+<CardGroup cols={3}>
+  <Card title="Admin" icon="shield-halved" href="/roles/admin">
+    Full platform access. Creates users, manages voter data, configures constituencies and geo-fences, and views all reports across the entire operation.
+  </Card>
+  <Card title="Manager" icon="users-gear" href="/roles/manager">
+    Oversees canvassers within assigned constituencies. Reviews survey results, monitors quota progress, manages exit polls, and adjusts system settings for their team.
+  </Card>
+  <Card title="Canvasser" icon="person-walking-arrow-right" href="/roles/canvasser">
+    Conducts voter surveys in the field. Searches the voter database, submits survey responses, views their assigned quota, and checks polling results.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Canvassers are referred to as `user` in the platform's underlying role system. When you see role-based routing to `/panel/user/dashboard`, that refers to the Canvasser role.
+</Tip>
+
+## Platform sections
+
+Fire242 is organized into role-specific panels:
+
+| Panel path | Who uses it | Purpose |
+|---|---|---|
+| `/panel/admin/dashboard` | Admin | Full platform overview and management |
+| `/panel/manager/dashboard` | Manager | Constituency-scoped oversight |
+| `/panel/user/dashboard` | Canvasser | Survey work and quota tracking |
+
+After signing in, you are automatically redirected to the dashboard for your role.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quick start" icon="rocket" href="/quickstart">
+    Sign in and complete your first voter survey step by step.
+  </Card>
+  <Card title="Authentication" icon="lock" href="/authentication">
+    Understand how sessions, tokens, and role-based access work.
+  </Card>
+  <Card title="Voter database" icon="database" href="/features/voter-database">
+    Search, filter, and view detailed voter records.
+  </Card>
+  <Card title="Voter surveys" icon="clipboard-list" href="/features/voter-survey">
+    Learn how to find a voter and submit a survey response.
+  </Card>
+</CardGroup>

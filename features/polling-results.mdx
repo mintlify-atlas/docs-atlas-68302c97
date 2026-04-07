@@ -1,0 +1,102 @@
+---
+title: "Polling Results"
+description: "Create, manage, and export polling card result entries that link a voter ID to a party affiliation recorded on election day."
+---
+
+Polling results are the individual records that power the exit poll system. Each record links a voter's registration number to the party they indicated on election day, and optionally includes a photo of their voting card. Admins and canvassers (users) can both create and edit these entries from their respective panels.
+
+## Polling results list
+
+The polling results list shows every entry recorded for the current election. Each row displays:
+
+| Column | Description |
+|--------|-------------|
+| ID | Internal record ID |
+| Voting card image | Thumbnail of the uploaded card photo, if provided |
+| Voter | Full name and address, linked to the voter database record |
+| Voter ID | The voter's registration number |
+| Party | The party code recorded at time of entry (e.g. `FNM`, `PLP`) |
+
+### Filtering the list
+
+Use the filter bar to narrow results by voter ID, party, polling division number, whether the voter exists in the database, and record type. All active filters are reflected in the page URL, so you can bookmark or share a filtered view.
+
+### Exporting results
+
+Click **Export** to download the current filtered list as a CSV file. The export respects all active filters, so you can export just the entries for a specific polling division or party.
+
+## Creating a polling result entry
+
+<Steps>
+  <Step title="Open the create form">
+    In the Polling Results list, click **Add New**. This opens the Create Polling Result form.
+  </Step>
+  <Step title="Enter the voter ID">
+    Type the voter's registration number in the **Voter ID** field. After a short delay, the system automatically looks up the voter and populates the **Voter Name** field. Confirm the name matches the person being recorded.
+
+    <Note>
+      The voter name field is read-only and auto-populated. If the name does not appear, verify that the voter ID is correct and exists in the database.
+    </Note>
+  </Step>
+  <Step title="Select the party">
+    Choose the party the voter indicated. The available options are **FNM**, **PLP**, **UNK** (unknown), and **COI**. Only one party can be selected per entry.
+  </Step>
+  <Step title="Upload a card image (optional)">
+    To attach a photo of the voting card, click the image upload field and select a file. Images must be a valid image format and under 5 MB. A preview appears immediately; click the remove button to clear it and upload a different file.
+  </Step>
+  <Step title="Save the entry">
+    Click **Save**. The new record appears in the polling results list, and the exit poll graphs and reports update to include it.
+  </Step>
+</Steps>
+
+## Editing a polling result entry
+
+From the polling results list, click the edit icon on any row to open the edit form. You can update the voter ID, party selection, and card image. The current page number is preserved in the URL so you return to the same position in the list after saving.
+
+## Deleting a polling result entry
+
+Click the delete icon on any row. A confirmation prompt appears before the record is permanently removed. Deletion cannot be undone.
+
+<Warning>
+  Deleting a polling result entry removes it from all election day graphs and reports immediately. Only delete entries that were recorded in error.
+</Warning>
+
+## Canvasser (user) view
+
+Canvassers access polling results from their own panel at `/panel/user/polling-result`. The interface is identical to the admin view — same list, same create form, same edit and delete actions — but scoped to the data the canvasser has permission to view.
+
+Canvassers can filter by voter ID, party, polling division number, voter null status, and record type. They can also add new entries and export results. The export URL uses the user-scoped API endpoint rather than the admin endpoint.
+
+## Print card list
+
+The print card view is a registered-voter list designed for printing physical canvassing cards. It shows all registered voters with their constituency, polling division, voter ID, full name, contact numbers, voting preference, and address.
+
+Filters available in this view include voter ID, name, constituency, polling division, address search, age bracket (under 25), voted status, correct phone indicator, and advance poll status.
+
+From this view you can:
+
+- **Print** — send the current filtered list to the browser print dialog
+- **Print Advance Poll** — print a filtered list of advance poll voters
+- **Export CSV** — download a CSV of the current filtered list
+- **Export PDF** — generate a PDF version of the list
+
+<Tip>
+  Filter by polling division and voted status before printing to produce targeted canvassing cards for a specific station.
+</Tip>
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Exit Polls" icon="check-to-slot" href="/features/exit-polls">
+    Overview of the exit poll tracking system and party voter views
+  </Card>
+  <Card title="Election Reports" icon="chart-bar" href="/features/election-reports">
+    Generate PDF and CSV reports from polling result data
+  </Card>
+  <Card title="Voter database" icon="database" href="/features/voter-database">
+    Look up voter records that polling results link to
+  </Card>
+  <Card title="Canvasser role" icon="person-walking-arrow-right" href="/roles/canvasser">
+    Canvasser permissions for creating and editing polling results
+  </Card>
+</CardGroup>

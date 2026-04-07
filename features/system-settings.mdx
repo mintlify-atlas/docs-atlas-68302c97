@@ -1,0 +1,128 @@
+---
+title: "System Settings"
+description: "Configure platform-wide time windows, inactivity timeouts, daily quotas, and active days in Fire242."
+---
+
+System settings control the operational parameters that govern when and how canvassers and managers can use Fire242. Admins configure a single global set of settings that applies across the platform. Managers with the system-settings permission can also adjust time parameters scoped to their own constituencies.
+
+<Note>
+System settings apply across all users on the platform. Changes made by an Admin take effect globally. Changes made by a Manager apply to canvassers within their assigned constituencies only.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Permissions" icon="shield" href="/features/permissions">
+    Control whether managers can access their system-settings view.
+  </Card>
+  <Card title="User management" icon="users" href="/features/user-management">
+    Manage the manager and canvasser accounts these settings affect.
+  </Card>
+</CardGroup>
+
+---
+
+## Admin system settings
+
+Admins access system settings at **Admin Panel → System Settings**. The page provides a time management form with the following configurable fields.
+
+### Available settings
+
+| Setting | Description |
+|---------|-------------|
+| **Active Days** | Days of the week on which canvassers are permitted to operate. Select any combination of Monday through Sunday using the checkboxes. |
+| **Start Time** | The earliest time at which canvassers can begin their sessions. Entered in 24-hour format (HH:mm). |
+| **End Time** | The latest time at which canvasser sessions are permitted. Entered in 24-hour format (HH:mm). |
+| **Inactivity Time** | The number of minutes of inactivity after which a canvasser session is automatically ended. Set to `0` to disable the inactivity timeout. |
+| **Administration Inactivity Time** | The number of minutes of inactivity after which an admin or manager session expires. This is separate from the canvasser inactivity timeout. |
+| **Daily Quota** | The target number of voter interactions a canvasser should complete per day. Used for reporting and progress tracking. |
+
+### Updating admin system settings
+
+<Steps>
+  <Step title="Navigate to system settings">
+    Go to **Admin Panel → System Settings**. The form loads with the current values pre-filled.
+  </Step>
+  <Step title="Select active days">
+    Check or uncheck the day checkboxes to define which days canvassers can log sessions. At least one day must be selected.
+  </Step>
+  <Step title="Set the time window">
+    Enter the **Start Time** and **End Time** in 24-hour format. For example, `08:00` and `20:00` to allow sessions from 8 AM to 8 PM.
+  </Step>
+  <Step title="Configure inactivity timeouts">
+    Enter the **Inactivity Time** for canvassers and the **Administration Inactivity Time** for admins and managers, both in minutes.
+  </Step>
+  <Step title="Set the daily quota">
+    Enter the number of voter interactions each canvasser is expected to complete per day.
+  </Step>
+  <Step title="Save">
+    Click **Update Time**. A success confirmation is shown. If no active days are selected, an error message is displayed and the update is rejected.
+  </Step>
+</Steps>
+
+<Warning>
+The daily quota and time window changes apply immediately. Canvassers who are mid-session when the end time passes will be affected on their next action. Review these settings carefully before election day.
+</Warning>
+
+---
+
+## How settings are applied globally
+
+System settings are distributed to the application via the `SystemSettingsProvider` context, which wraps the entire Fire242 frontend. On load, the provider fetches the current settings from the `/global-system-settings` API endpoint using the logged-in user's auth token:
+
+```
+GET /global-system-settings
+Authorization: Bearer <token>
+```
+
+The response is stored in React context and made available throughout the application via the `useSystemSettings` hook. This means every component that needs to respect the configured time window, daily quota, or active days reads from a single shared source — there is no per-component fetch.
+
+If the fetch fails (for example, due to an invalid or expired token), the settings context returns `null` and a console error is logged. Components dependent on system settings should handle this gracefully.
+
+---
+
+## Manager system settings
+
+Managers with the **System Settings** permission enabled can access a settings form scoped to their constituencies at **Manager Panel → System Settings**.
+
+The manager settings form provides the same fields as the admin form, with two differences:
+
+1. There is no **Administration Inactivity Time** field — managers cannot modify the admin session timeout.
+2. The form displays the manager's **current active time window** as a reference before they submit changes (for example, "This time settings update [Manager Name] time is 8:00 AM to 8:00 PM before").
+
+Changes submitted by a manager update the time settings for canvassers in their assigned constituencies. The update is sent to the same system-settings API with a `constituency_id: "all"` scope applied to the manager's own constituencies.
+
+<Tip>
+If a manager's time window differs from the global admin settings, the manager's settings take precedence for canvassers in their constituencies. Use this to accommodate different operating hours across regions.
+</Tip>
+
+---
+
+## Dark and light theme
+
+Fire242 supports a dark mode and a light mode. The active theme is toggled per user and persisted in the browser's `localStorage` under the key `theme`.
+
+**Behaviour:**
+- On first load, the theme defaults to **light** mode. There is no automatic OS-preference detection.
+- When the user toggles the theme, `localStorage` is updated to either `"dark"` or `"light"` under the key `theme`.
+- On subsequent loads, the saved preference in `localStorage` is used. If no preference has been saved, light mode is applied.
+- The theme is applied by setting the class on the document root element (`document.documentElement.className`).
+
+The theme preference is stored locally per browser. It is not synchronised across devices or tied to the user's account in the database. Each user independently controls their own display preference.
+
+---
+
+## Settings API reference
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/global-system-settings` | `GET` | Fetches the current system settings for use across the application. Requires a valid Bearer token. |
+| `/admin/system-settings` | `GET` | Fetches the current settings for display in the admin settings form. |
+| `/admin/system-settings` | `POST` (with `_method: PUT`) | Updates system settings. Accepts `start_time`, `end_time`, `active_time`, `admin_active_time`, `daily_target`, and `days[]`. |
+
+<CardGroup cols={2}>
+  <Card title="Permissions" icon="toggle-left" href="/features/permissions">
+    Enable or disable manager access to system settings.
+  </Card>
+  <Card title="Election reports" icon="file-chart" href="/features/election-reports">
+    Review how daily quotas and active periods affect election reporting.
+  </Card>
+</CardGroup>

@@ -1,0 +1,89 @@
+---
+title: 'User roles overview'
+description: 'Fire242 has three user roles — Admin, Manager, and Canvasser — each with a dedicated panel and a distinct set of capabilities.'
+keywords: ['roles', 'admin', 'manager', 'canvasser', 'permissions', 'access control']
+---
+
+Fire242 uses role-based access control to ensure each user sees only what they need. When a user logs in, the platform reads their role from the authentication token and routes them to their assigned panel.
+
+| Panel path | Role |
+|---|---|
+| `/panel/admin` | Admin |
+| `/panel/manager` | Manager |
+| `/panel/user` | Canvasser (data entry) |
+
+## How roles are assigned
+
+Only an Admin can create accounts and assign roles. Managers and Canvassers cannot self-register.
+
+<Steps>
+  <Step title="Admin creates the account">
+    Navigate to **Managers** or **Data Entries** in the admin sidebar, then select **Add Manager** or **Add Data Entry**.
+  </Step>
+  <Step title="User receives credentials">
+    The new user receives login credentials and is directed to their role-specific panel.
+  </Step>
+  <Step title="Admin configures permissions">
+    For Managers and Canvassers, the Admin can enable or disable individual pages via **Permissions → Manager Permissions** or **Permissions → Data Entry Permissions**.
+  </Step>
+</Steps>
+
+<Note>
+  Managers and Canvassers only see sidebar items that the Admin has enabled for their account. The Admin panel is not subject to page-level permission controls.
+</Note>
+
+## Roles at a glance
+
+<CardGroup cols={3}>
+  <Card title="Admin" href="/roles/admin">
+    Full system access. Manages voters, user accounts, constituencies, parties, locations, exit polls, reports, and system configuration. Routes to `/panel/admin`.
+  </Card>
+  <Card title="Manager" href="/roles/manager">
+    Manages canvassers within assigned constituencies. Views voter reports, exit poll data, opinion surveys, and canvasser activity. Routes to `/panel/manager`.
+  </Card>
+  <Card title="Canvasser" href="/roles/canvasser">
+    Conducts voter surveys in the field. Views their assigned voter list, daily quota progress, polling card results, and opinion reports. Routes to `/panel/user`.
+  </Card>
+</CardGroup>
+
+## Capability comparison
+
+| Capability | Admin | Manager | Canvasser |
+|---|:---:|:---:|:---:|
+| View dashboard | ✓ | ✓ | ✓ |
+| Manage voters (view, edit) | ✓ | ✓ | ✓ |
+| Upload voters via Excel | ✓ | — | — |
+| Create/manage admin accounts | ✓ | — | — |
+| Create/manage managers | ✓ | — | — |
+| Create/manage canvassers | ✓ | ✓ | — |
+| Assign constituencies | ✓ | — | — |
+| Manage parties & locations | ✓ | — | — |
+| View voter reports | ✓ | ✓ | ✓ |
+| Conduct voter surveys | — | — | ✓ |
+| View daily quota | — | — | ✓ |
+| View/manage exit polls | ✓ | ✓ | — |
+| View polling card results | ✓ | ✓ | ✓ |
+| Manage opinion survey questions | ✓ | — | — |
+| View opinion reports | ✓ | ✓ | ✓ |
+| Configure permissions | ✓ | — | — |
+| Geo-fence management | ✓ | — | — |
+| System settings | ✓ | ✓* | — |
+
+\* Managers access system settings only when the `timePermission` flag is enabled for their account.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Authentication" href="/authentication">
+    How login, token storage, and role-based routing work.
+  </Card>
+  <Card title="Permissions" href="/features/permissions">
+    Enabling and disabling individual pages for Managers and Canvassers.
+  </Card>
+  <Card title="User management" href="/features/user-management">
+    Creating and managing user accounts across all roles.
+  </Card>
+  <Card title="Constituencies" href="/features/constituencies">
+    How constituencies are defined and assigned to managers.
+  </Card>
+</CardGroup>

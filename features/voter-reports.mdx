@@ -1,0 +1,186 @@
+---
+title: "Voter Reports"
+description: "Analyse voter and survey data with five pre-built constituency reports and the call center report."
+---
+
+Fire242 includes five pre-built reports that aggregate voter and survey data by constituency and polling division. Each report is filterable, paginated, and exportable. Reports are accessible to administrators from the **Reports** section of the admin panel.
+
+## Available reports
+
+<CardGroup cols={2}>
+  <Card title="Constituency report 1" icon="chart-bar" href="/features/voter-reports">
+    Total, surveyed, and not-surveyed voter counts per constituency, plus FNM and PLP counts and percentages, and male/female breakdown of surveyed voters.
+  </Card>
+  <Card title="Constituency report 2" icon="chart-bar" href="/features/voter-reports">
+    Total surveyed vs total voters per constituency with a survey completion percentage.
+  </Card>
+  <Card title="Constituency report 3" icon="chart-pie" href="/features/voter-reports">
+    Full party breakdown per constituency — FNM, L-FNM, PLP, DNA, COI, BCP, BDM, Other, and Unavailable — expressed as percentages of surveyed voters. Includes a totals row.
+  </Card>
+  <Card title="Constituency report 4" icon="users" href="/features/voter-reports">
+    Party breakdown by polling division — FNM, PLP, COI, Other counts and percentages, votes not surveyed, and subtotals. Includes a totals row.
+  </Card>
+  <Card title="Constituency report 5" icon="table" href="/features/voter-reports">
+    The most detailed report — party percentages (FNM, L-FNM, PLP, DNA, COI, BCP, BDM) and gender percentages (male, female, unspecified) per polling division and constituency. Supports both CSV and PDF export.
+  </Card>
+</CardGroup>
+
+## Report data reference
+
+### Constituency report 1
+
+| Column | Description |
+|---|---|
+| Constituency ID | Numeric constituency code |
+| Constituency Name | Full constituency name |
+| Total Voters | All registered voters in the constituency |
+| Surveyed Voters | Voters with a completed survey |
+| Not Surveyed Voters | Registered voters without a survey |
+| Surveyed Percentage | `surveyed / total × 100` |
+| FNM Count | Surveys where voting for = FNM |
+| FNM Percentage | FNM count as a percentage of surveyed voters |
+| PLP Count | Surveys where voting for = PLP |
+| PLP Percentage | PLP count as a percentage of surveyed voters |
+| Male Count | Male surveyed voters |
+| Male Percentage | Male count as a percentage of surveyed voters |
+| Female Count | Female surveyed voters |
+| Female Percentage | Female count as a percentage of surveyed voters |
+
+### Constituency report 2
+
+| Column | Description |
+|---|---|
+| Constituency ID | Numeric constituency code |
+| Constituency Name | Full constituency name |
+| Total Surveyed | Completed surveys |
+| Total Voters | All registered voters |
+| Percentage | Survey completion percentage |
+
+### Constituency report 3
+
+Adds the following party columns to the report 1 base:
+
+`FNM %`, `L-FNM %`, `PLP %`, `DNA %`, `COI %`, `BCP %`, `BDM %`, `Other %`, `Unavailable %`
+
+All percentages are of surveyed voters for the constituency.
+
+### Constituency report 4 — Survey report by party
+
+Aggregates by **polling division** rather than constituency:
+
+| Column | Description |
+|---|---|
+| Polling Division | Polling station number |
+| Total Voters in Polling | All voters assigned to this polling station |
+| FNM Count | Surveyed voters intending to vote FNM |
+| PLP Count | Surveyed voters intending to vote PLP |
+| COI Count | Surveyed voters intending to vote COI |
+| Other Count | Surveyed voters for any other party |
+| SubTotal | Sum of all party counts |
+| Votes Not Surveyed | Voters assigned to polling but without a survey |
+| Total Count | SubTotal + Votes Not Surveyed |
+| FNM % / PLP % / DNA % / Other % / No Vote % | Percentages of total count |
+
+### Constituency report 5
+
+The most granular report. Aggregates by polling division and includes:
+
+- Surveyed percentage
+- Per-party percentages: FNM, L-FNM, PLP, DNA, COI, BCP, BDM
+- Gender breakdown: Male %, Female %, Unspecified %
+
+This report supports both **CSV export** and **PDF export**.
+
+## Filtering reports
+
+All reports share a consistent filter bar:
+
+| Filter | Description |
+|---|---|
+| **Constituency ID** | Filter to a specific constituency by numeric code |
+| **Registered Const Name** | Filter by constituency name (partial match) |
+| **Polling Division Number** | Available in reports 4 and 5 — filter to a specific polling station |
+
+Filters are applied immediately. The table re-fetches data with the new parameters and updates the record count shown in the page heading.
+
+<Tip>
+Filter by constituency before exporting to generate a constituency-specific report rather than downloading the entire dataset.
+</Tip>
+
+## Exporting reports
+
+Each report has an **Export** button in the filter bar that downloads the current (filtered) data as a CSV file. Constituency report 5 additionally provides an **Export PDF** button.
+
+<Tabs>
+  <Tab title="CSV export">
+    Click the **Export** button (download icon) in the filter bar. The file downloads immediately. The exported data reflects whatever filters are currently applied.
+  </Tab>
+  <Tab title="PDF export (report 5 only)">
+    Click the **Export PDF** button (PDF icon) in the filter bar. A PDF version of the report is generated on the server and downloaded. This format is suitable for printing and sharing with stakeholders.
+  </Tab>
+</Tabs>
+
+## Call center report
+
+The **Survey Call Center List** is a separate view that tracks phone surveys conducted by call center agents. It is accessible from the admin panel under the survey menu.
+
+### Columns
+
+| Column | Description |
+|---|---|
+| Complete | Toggle to mark a call center record as completed |
+| Voter ID | Electoral roll voter ID |
+| First / Last Name | Voter name |
+| Constituency / Name | Constituency code and name |
+| Polling | Polling division number |
+| Address | Voter's registered address |
+| Caller Name | Name of the call center agent |
+| Caller Phone | Agent's phone number |
+| Caller Email | Agent's email address |
+| Date | Date and time the call was made |
+| Voting Decision | Voter's stated voting intention |
+| Voting For | Party the voter intends to support |
+| Candidate Follow Up | Follow-up action required with the candidate |
+| Address Special Concerns | Any special concerns raised about the voter's address |
+| Voter Contacts | Contact information provided by the voter |
+| Other Comments | General notes from the call |
+| Soliciting Volunteers | Whether the voter expressed interest in volunteering |
+| Number Called | Phone number dialled |
+| Number of Calls | Total calls made to this voter |
+| Created At | Timestamp of record creation |
+
+### Filtering the call center list
+
+| Filter | Description |
+|---|---|
+| **Voter ID** | Exact match on voter ID |
+| **First Name** | Partial match on first name |
+| **Last Name** | Partial match on last name |
+| **Constituency ID** | Numeric constituency code |
+| **Caller Name** | Name of the call center agent |
+| **Caller Email** | Email of the call center agent |
+
+### Marking a record complete
+
+Click the toggle icon in the **Complete** column to mark a call center survey record as complete. A confirmation toast appears. Records already marked complete show a green checkmark and cannot be unmarked.
+
+### Editing call center records
+
+Click the **Edit** button on any row to open the edit form and update the call center survey data.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Voter database" icon="database" href="/features/voter-database">
+    Browse the underlying voter records behind the reports.
+  </Card>
+  <Card title="Voter surveys" icon="clipboard-list" href="/features/voter-survey">
+    Understand how survey data is collected.
+  </Card>
+  <Card title="Election reports" icon="chart-line" href="/features/election-reports">
+    View election-day and polling results reports.
+  </Card>
+  <Card title="Constituencies" icon="map" href="/features/constituencies">
+    Manage constituency definitions and boundaries.
+  </Card>
+</CardGroup>

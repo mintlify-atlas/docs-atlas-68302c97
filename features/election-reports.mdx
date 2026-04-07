@@ -1,0 +1,154 @@
+---
+title: "Election Reports"
+description: "Generate and export comprehensive election day reports, voter management reports, and constituency survey reports for analysis and distribution."
+---
+
+Fire242 provides a suite of election-day and survey reports that aggregate exit poll data, voter turnout figures, and canvassing survey results into exportable tables. All reports support CSV export; select reports also support PDF export. Reports are scoped to the admin role unless otherwise noted.
+
+## Election day report
+
+The election day report (called **Election Projections** in the platform) aggregates polling card results by polling division. It is the primary document for projecting election outcomes in real time.
+
+### Columns
+
+| Column | Description |
+|--------|-------------|
+| Polling Division | The polling division number |
+| FNM Count | Number of FNM votes recorded in that division |
+| PLP Count | Number of PLP votes |
+| COI Count | Number of COI votes |
+| Other Count | Votes recorded as other parties |
+| Totals | Sum of party votes (FNM + PLP + COI + Other) |
+| No Vote Count | Voters in the database with no exit poll entry |
+| Total Count | All voters in the division |
+| FNM % | FNM votes as a percentage of total |
+| PLP % | PLP votes as a percentage of total |
+| DNA % | DNA votes as a percentage of total |
+| Other % | Other votes as a percentage of total |
+| No Vote % | No-vote count as a percentage of total |
+
+A totals row at the bottom sums all numeric columns across all displayed divisions.
+
+### Generating the election day report
+
+<Steps>
+  <Step title="Navigate to Election Projections">
+    In the admin panel, go to **Exit Polls** > **Election Day Report**.
+  </Step>
+  <Step title="Apply filters">
+    Use the filter bar to narrow by constituency ID, constituency name, or polling division number. You can also toggle the `exists_in_database` filter to include or exclude voters not found in the voter database.
+  </Step>
+  <Step title="Review the data">
+    The table updates immediately as you apply filters. Check the totals row at the bottom for constituency-level or division-level subtotals.
+  </Step>
+  <Step title="Export">
+    Click **Export** to download the current view as a CSV file. The export applies all active filters.
+  </Step>
+</Steps>
+
+## Voter management report
+
+The voter management report provides a full operational view of each voter — combining their registered details with their election-day exit poll result and survey data. It is used for post-election analysis and targeted follow-up.
+
+### Columns
+
+The voter management report includes: constituency ID and name, polling division, voter ID, full name, cell/home/work phone numbers, voting decision (from canvassing surveys), voting day decision (exit poll), date of birth, address fields (house number, apartment, block, street), and place-of-birth codes.
+
+The **Voting Day Decision** column displays full party names rather than codes:
+
+| Code | Display |
+|------|---------|
+| `fnm` | Free National Movement |
+| `l-fnm` | Leaning Free National Movement |
+| `plp` | Progressive Liberal Party |
+| `dna` | Democratic National Alliance |
+| `coi` | Coalition of Independents |
+| `bcp` | Bahamas Constitution Party |
+| `bdm` | Bahamas Democratic Movement |
+| `unk` | Unknown |
+| `undisclosed` | OTHER |
+| `unavail` | UNAVAILABLE |
+
+### Filters and exports
+
+Filter the voter management report by voter ID, first name, last name, constituency, polling division, address, age bracket (under 25), survey status, database membership, and party preference. You can sort by first name, last name, constituency, voter ID, or polling division.
+
+Both **Export CSV** and **Export PDF** are available.
+
+## Voter section reports (Report 1–5)
+
+The voter section contains five constituency-level reports that aggregate canvassing survey data. All five are admin-only and support CSV export.
+
+<AccordionGroup>
+  <Accordion title="Report 1 — Constituency survey summary">
+    Aggregates survey completion rates and party breakdowns by constituency. Columns include total voters, surveyed voters, not-surveyed voters, surveyed percentage, FNM count, FNM percentage, PLP count, PLP percentage, male count, male percentage, female count, and female percentage.
+
+    Filter by constituency ID or constituency name. Exportable as CSV.
+  </Accordion>
+
+  <Accordion title="Report 2 — Constituency survey totals">
+    A simplified view showing total surveyed, total voters, and the survey completion percentage for each constituency. Useful for a quick overview of canvassing progress.
+
+    Filter by constituency ID or constituency name. Exportable as CSV.
+  </Accordion>
+
+  <Accordion title="Report 3 — Constituency party breakdown">
+    Extends the survey summary with detailed party percentages across all tracked parties: FNM, L-FNM, PLP, DNA, COI, BCP, BDM, Other, and Unavailable. Includes a totals row.
+
+    Filter by constituency ID or constituency name. Exportable as CSV.
+  </Accordion>
+
+  <Accordion title="Report 4 — Survey report by party (polling division)">
+    Similar to the election day report but based on canvassing survey data rather than exit poll entries. Breaks down FNM, PLP, COI, and Other counts and percentages by polling division, along with no-vote and total counts. Includes a totals row.
+
+    Filter by constituency ID, constituency name, or polling division number. Exportable as CSV.
+  </Accordion>
+
+  <Accordion title="Report 5 — Polling division party and gender breakdown">
+    The most detailed constituency report. Shows survey completion figures alongside party percentages (FNM, L-FNM, PLP, DNA, COI, BCP, BDM) and gender percentages (male, female, unspecified) for each polling division. Includes a totals row.
+
+    Filter by constituency ID or constituency name. Exportable as CSV or PDF.
+  </Accordion>
+</AccordionGroup>
+
+## Access by role
+
+| Report | Admin | Manager |
+|--------|-------|---------|
+| Election day report (Election Projections) | Yes | Yes |
+| Voter management report | Yes | Yes |
+| Report 1 — Constituency survey summary | Yes | No |
+| Report 2 — Constituency survey totals | Yes | No |
+| Report 3 — Constituency party breakdown | Yes | No |
+| Report 4 — Survey report by party | Yes | No |
+| Report 5 — Polling division breakdown | Yes | No |
+
+<Note>
+  Managers access the election day report and voter management report from their own panel, scoped to the constituencies assigned to their account. The report columns and export options are the same as the admin view.
+</Note>
+
+## Export formats
+
+| Format | How to trigger | Available in |
+|--------|---------------|--------------|
+| CSV | Click **Export** in the filter bar | All reports |
+| PDF | Click **Export PDF** in the filter bar | Voter management report, Report 5 |
+
+CSV files download immediately through the browser. PDF exports are generated server-side and download as a file when ready.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Exit Polls" icon="check-to-slot" href="/features/exit-polls">
+    The exit poll entries that feed the election day report
+  </Card>
+  <Card title="Polling Results" icon="ballot-check" href="/features/polling-results">
+    Create and manage polling card result entries
+  </Card>
+  <Card title="Voter reports" icon="chart-bar" href="/features/voter-reports">
+    Canvassing and survey reports in the voter section
+  </Card>
+  <Card title="Admin role" icon="shield" href="/roles/admin">
+    Full list of admin-only report access
+  </Card>
+</CardGroup>
